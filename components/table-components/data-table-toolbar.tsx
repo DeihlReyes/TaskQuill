@@ -1,5 +1,3 @@
-"use client"
-
 import { Cross2Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons"
 import { Table } from "@tanstack/react-table"
 
@@ -20,7 +18,7 @@ export function DataTableToolbar<TData>({
   const isFiltered = table.getState().columnFilters.length > 0
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-4">
       <div className="flex flex-1 items-center space-x-2">
         <div className="relative flex flex-row justify-end items-center">
           <Input
@@ -29,9 +27,9 @@ export function DataTableToolbar<TData>({
             onChange={(event) =>
               table.getColumn("title")?.setFilterValue(event.target.value)
             }
-            className="h-8 w-[150px] lg:w-[250px] pr-8"
+            className="h-8 w-full md:w-[250px] pr-8"
           />
-          <MagnifyingGlassIcon className="h-4 w-4 mr-2 absolute"/>
+          <MagnifyingGlassIcon className="h-4 w-4 mr-2 absolute" />
         </div>
         {table.getColumn("status") && (
           <DataTableFacetedFilter
@@ -51,7 +49,7 @@ export function DataTableToolbar<TData>({
           <Button
             variant="ghost"
             onClick={() => table.resetColumnFilters()}
-            className="h-8 px-2 lg:px-3"
+            className="h-8 px-2 md:px-3"
           >
             Reset
             <Cross2Icon className="ml-2 h-4 w-4" />

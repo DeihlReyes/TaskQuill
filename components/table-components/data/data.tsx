@@ -37,7 +37,7 @@ export const statuses = [
     color: "text-yellow-500"
   },
   {
-    value: "completed",
+    value: "done",
     label: "Completed",
     icon: CheckCircledIcon,
     color: "text-green-500"

@@ -20,7 +20,7 @@ import {
 
 import { labels } from "@/components/table-components/data/data"
 import { taskSchema } from "@/components/table-components/data/schema"
-import { useDeleteModal } from "@/hooks/use-delete-modal";
+import { useModal } from "@/hooks/use-modal";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -30,7 +30,7 @@ export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
   const task = taskSchema.parse(row.original)
-  const DeleteModal = useDeleteModal();
+  const { onOpen } = useModal();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -58,7 +58,7 @@ export function DataTableRowActions<TData>({
           </DropdownMenuSubContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={DeleteModal.onOpen}>
+        <DropdownMenuItem onClick={() => onOpen("deleteTask")}>
           Delete
           <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>

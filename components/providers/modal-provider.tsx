@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 
-import { DeleteModal } from "@/components/delete-modal";
+import { AddProjectModal } from "@/components/modals/add-project-modal";
+import { AddTaskModal } from "@/components/modals/add-task-modal";
+import { DeleteModal } from "@/components/modals/delete-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -18,6 +20,8 @@ export const ModalProvider = () => {
   return (
     <>
       <DeleteModal />
+      <AddProjectModal />
+      <AddTaskModal />
     </>
   );
 };

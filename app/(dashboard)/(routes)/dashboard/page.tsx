@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import path from "path"
 import { taskSchema } from "@/components/table-components/data/schema";
 import { columns } from "@/components/table-components/columns"
-import { getTaskbyStatusCount } from "@/hooks/getTasks";
+import { getTaskbyStatusCount } from "@/lib/getTasks";
 
 
 const tasksCount: any = async() => { 
@@ -61,36 +61,40 @@ async function getTasks() {
 }
 
 export const Home = async () => {
-  const tasks = await getTasks()
-  const TaskData = await tasksCount()
+  const tasks = await getTasks();
+  const TaskData = await tasksCount();
 
-    return (
-      <div>
-        <main className="flex flex-row md:p-8 gap-8">
-          <div>
-            <div className="flex flex-row gap-4 w-full justify-between">
-              {TaskData.map((task: any) => (
-                <Card key={null} className="w-52 text-center shadow-md shadow-[#0d0d0d]/20 hover:scale-105">
-                    <CardHeader>
-                        <CardTitle className="text-lg font-bold">{task.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <h1 className={cn("md:text-5xl font-bold", task.color)}>{task.items}</h1>
-                    </CardContent>
-                </Card>
-              ))}
-            </div>
-            <div className="py-12">
-              <DataTable data={tasks} columns={columns} />
-            </div>
+  return (
+    <div>
+      <main className="flex flex-col md:flex-row md:justify-center md:gap-8 p-4">
+        <div className="w-full md:w-3/4">
+          <div className="flex flex-wrap md:flex-row gap-y-8 justify-evenly md:justify-between items-center">
+            {TaskData.map((task: any) => (
+              <Card
+                key={null}
+                className="w-40 md:w-52 text-center shadow-md dark:shadow-[#fefefe]/20 shadow-[#0d0d0d]/20 hover:scale-105"
+              >
+                <CardHeader>
+                  <CardTitle className="text-lg font-bold">{task.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <h1 className={cn("md:text-5xl font-bold", task.color)}>
+                    {task.items}
+                  </h1>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-          <div className="hidden h-full md:flex md:w-64 md:flex-col z-80">
-            <MeetingSidebar/>
+          <div className="py-12">
+            <DataTable data={tasks} columns={columns} />
           </div>
-        </main>
-      </div>
-    )
-}
+        </div>
+        <div className="hidden md:block w-1/4 h-full">
+          <MeetingSidebar />
+        </div>
+      </main>
+    </div>
+  );
+};
 
 export default Home;
-  
