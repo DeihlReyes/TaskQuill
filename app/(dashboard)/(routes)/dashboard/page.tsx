@@ -14,7 +14,7 @@ export const Dashboard = () => {
           </div>
           <div className="py-12">
             {/* <DataTable data={Tasks} columns={columns} /> */}
-            <TaskTable />
+            <TaskTable projectId="gad" />
           </div>
         </div>
         <div className="hidden md:block w-1/4 h-full">
