@@ -16,7 +16,7 @@ import TaskTable from "@/components/tasks/task-table";
 import useProject from "@/hooks/use-project";
 import { Project } from "@prisma/client";
 
-export const Tasks = () => {
+const Tasks = () => {
     const { onOpen } = useModal();
 
     const { data: Projects =  []  } = useProject();

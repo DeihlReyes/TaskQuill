@@ -3,8 +3,7 @@ import TaskCard from "@/components/tasks/task-card";
 import TaskTable from "@/components/tasks/task-table";
 
 
-export const Dashboard = () => {
-
+const Dashboard = () => {
   return (
     <div>
       <main className="flex flex-col md:flex-row md:justify-center md:gap-8 p-4">

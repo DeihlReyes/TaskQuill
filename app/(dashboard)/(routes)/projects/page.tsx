@@ -21,7 +21,7 @@ type ProjectPageProps = Project & {
     task: Task[];
 }
 
-export const Projects = () => {
+const Projects = () => {
     const { onOpen } = useModal();
 
     const { data: projects, isLoading }  = useProject();
