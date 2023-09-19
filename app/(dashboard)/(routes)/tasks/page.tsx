@@ -12,46 +12,14 @@ import {
 import { DataTable } from "@/components/table-components/data-table";
 import { columns } from "@/components/table-components/columns";
 import { useModal } from "@/hooks/use-modal";
-import tasks from "@/components/table-components/data/seed";
-  
-
-const projects = [
-    {
-        "Name": "SecureSign",
-        "Description": "SecureSign is an AI-powered solution designed to automate the detection of forged signatures in documents. By combining image processing techniques and machine learning algorithms, this system enhances document security and authenticity.",
-        "TasksCount": 8
-    },
-    {
-        "Name": "SignaSure",
-        "Description": "SignaSure is a comprehensive framework that leverages deep learning and image analysis to authenticate signatures and prevent forgery. This project aims to address the challenges associated with document security and fraudulent practices.",
-        "TasksCount": 10
-    },
-    {
-        "Name": "ForgeryAI",
-        "Description": "ForgeryAI is an innovative project that harnesses the power of deep learning for accurate signature forgery detection. By analyzing patterns and features in signature images, this system contributes to the fight against document fraud.",
-        "TasksCount": 7
-    },
-    {
-        "Name": "AutoDetectSig",
-        "Description": "AutoDetectSig is a data-driven approach to automated signature forgery detection. By combining machine learning techniques and feature extraction from signature images, this project aims to develop a reliable authentication system.",
-        "TasksCount": 9
-    },
-    {
-        "Name": "GuardianSign",
-        "Description": "GuardianSign is a project that focuses on building a robust signature forgery detection and prevention system. Through the integration of AI algorithms and advanced image analysis, this system enhances document security.",
-        "TasksCount": 11
-    },
-    {
-        "Name": "VeriSig",
-        "Description": "VeriSig is an integrated solution that combines machine learning and image processing techniques to ensure the authenticity of signatures. By addressing the challenges of document fraud, this project contributes to secure transactions and records.",
-        "TasksCount": 8
-    },   
-]
-
-const myTasks =  tasks;
+import TaskTable from "@/components/tasks/task-table";
+import useProject from "@/hooks/use-project";
+import { Project } from "@prisma/client";
 
 export const Tasks = () => {
     const { onOpen } = useModal();
+
+    const { data: Projects =  []  } = useProject();
 
     return (
         <div className="md:p-8 p-4 flex flex-col justify-center mx-auto">
@@ -59,12 +27,12 @@ export const Tasks = () => {
                 <h1 className="mb-4 md:text-xl font-bold">My Projects</h1>
                 <div className="flex flex-row justify-between">
                     <Select>
-                        <SelectTrigger className="w-3/5 md:w-1/3 border-2 border-[#0d0d0d]/20 dark:border-[#fefefe]/20">
+                        <SelectTrigger className="w-3/5 border-2 border-[#0d0d0d]/20 dark:border-[#fefefe]/20">
                             <SelectValue placeholder="Select a project" />
                         </SelectTrigger>
                         <SelectContent>
-                            {projects.map((project) => (
-                                <SelectItem key={null} value={project.Name}>{project.Name}</SelectItem>
+                            {Projects.map((project: Project) => (
+                                <SelectItem key={project.id} value={project.id}>{project.title}</SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
@@ -75,8 +43,8 @@ export const Tasks = () => {
                 </div>
             </div>
             <div className="py-12">
-            <DataTable data={myTasks} columns={columns} />
-          </div>
+                <TaskTable projectId={"project"} />
+            </div>
         </div>
     );
 }

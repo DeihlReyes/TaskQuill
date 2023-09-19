@@ -83,7 +83,7 @@ export const AddProjectModal = () => {
                     <Textarea
                       disabled={isLoading}
                       maxLength={200}
-                      className="border-0 bg-[#0d0d0d]/10 dark:bg-[#fefefe]/10 focus-visible:ring-0 focus-visible:ring-offset-0"
+                      className="h-[110px] border-0 bg-[#0d0d0d]/10 dark:bg-[#fefefe]/10 focus-visible:ring-0 focus-visible:ring-offset-0"
                       placeholder="Enter Project Description"
                       {...field}
                     />

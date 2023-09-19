@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table"
 
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
-
+import { Label, Priority, TaskStatus } from "@prisma/client"
 import { labels, priorities, statuses } from "@/components/table-components/data/data"
 import { Task } from "@/components/table-components/data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
@@ -48,7 +48,7 @@ export const columns: ColumnDef<Task>[] = [
       <DataTableColumnHeader column={column} title="Title" />
     ),
     cell: ({ row }) => {
-      const label = labels.find((label) => label.value === row.original.label)
+      const label = labels.find((label) => label.label === row.original.label)
 
       return (
         <div className="flex space-x-2">
@@ -67,7 +67,7 @@ export const columns: ColumnDef<Task>[] = [
     ),
     cell: ({ row }) => {
       const status = statuses.find(
-        (status) => status.value === row.getValue("status")
+        (status) => status.label === row.getValue("status")
       )
 
       if (!status) {
@@ -79,7 +79,7 @@ export const columns: ColumnDef<Task>[] = [
           {status.icon && (
             <status.icon className={cn("mr-2 h-4 w-4 text-muted-foreground", status.color)} />
           )}
-          <span>{status.label}</span>
+          <span>{status.value}</span>
         </div>
       )
     },
@@ -94,7 +94,7 @@ export const columns: ColumnDef<Task>[] = [
     ),
     cell: ({ row }) => {
       const priority = priorities.find(
-        (priority) => priority.value === row.getValue("priority")
+        (priority) => priority.label === row.getValue("priority")
       )
 
       if (!priority) {
@@ -106,7 +106,7 @@ export const columns: ColumnDef<Task>[] = [
           {priority.icon && (
             <priority.icon className="mr-2 h-4 w-4 text-muted-foreground" />
           )}
-          <span>{priority.label}</span>
+          <span>{priority.value}</span>
         </div>
       )
     },

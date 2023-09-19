@@ -23,8 +23,8 @@ const Navbar = async () => {
               <p>{formattedDate}</p>
           </div>
           <div className="flex flex-row items-center justify-center gap-4 my-auto">
-            <ModeToggle />
-              <UserButton afterSignOutUrl="/"/>
+            <div><ModeToggle /></div>
+            <div><UserButton afterSignOutUrl="/" /></div>
           </div>
         </div>
       </div>
@@ -32,26 +32,3 @@ const Navbar = async () => {
 }
  
 export default Navbar;
-
-// return ( 
-//   <div className="flex flex-row justify-between py-6 px-4">
-//     <MobileSidebar />
-//     <div className="flex w-full justify-between">
-//       <div>
-//           <p className="font-bold text-md">Welcome back, {userProfile.name}</p>
-//           <p>{formattedDate}</p>
-//       </div>
-//       <div className="my-auto">
-//           <UserButton afterSignOutUrl="/" 
-//           appearance={{
-//                   elements:{
-//                       userButtonAvatarBox: { // Target the userButtonAvatar element
-//                           width: '45px',    // Increase the width of the avatar
-//                           height: '45px',
-//                       }
-//                   }
-//               }}/>
-//       </div>
-//     </div>
-//   </div>
-//  );

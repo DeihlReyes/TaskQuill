@@ -1,3 +1,4 @@
+import { Label, Priority, TaskStatus } from "@prisma/client"
 import {
   ArrowDownIcon,
   ArrowRightIcon,
@@ -10,41 +11,53 @@ import {
 
 export const labels = [
   {
-    value: "bug",
-    label: "Bug",
+    value: Label.BUG,
+    label: Label.BUG,
   },
   {
-    value: "feature",
-    label: "Feature",
+    value: Label.FEATURE,
+    label: Label.FEATURE,
   },
   {
-    value: "documentation",
-    label: "Documentation",
+    value: Label.DOCUMENTATION,
+    label: Label.DOCUMENTATION,
   },
+  {
+    value: Label.IMPROVEMENT,
+    label: Label.IMPROVEMENT,
+  },
+  { 
+    value: Label.REFACTOR,
+    label: Label.REFACTOR,
+  },
+  {
+    value: Label.TEST,
+    label: Label.TEST,
+  }
 ]
 
 export const statuses = [
   {
-    value: "todo",
-    label: "Todo",
+    value: "Todo",
+    label: TaskStatus.TODO,
     icon: CircleIcon,
     color: "text-blue-500"
   },
   {
-    value: "in progress",
-    label: "In Progress",
+    value: "In Progress",
+    label: TaskStatus.IN_PROGRESS,
     icon: StopwatchIcon,
     color: "text-yellow-500"
   },
   {
-    value: "done",
-    label: "Completed",
+    value: "Completed",
+    label: TaskStatus.DONE,
     icon: CheckCircledIcon,
     color: "text-green-500"
   },
   {
-    value: "canceled",
-    label: "Canceled",
+    value: "Cancelled",
+    label: TaskStatus.CANCELLED,
     icon: CrossCircledIcon,
     color: "text-red-500"
   },
@@ -52,18 +65,18 @@ export const statuses = [
 
 export const priorities = [
   {
-    label: "Low",
-    value: "low",
+    label: Priority.LOW,
+    value: "Low",
     icon: ArrowDownIcon,
   },
   {
-    label: "Medium",
-    value: "medium",
+    label: Priority.MEDIUM,
+    value: "Medium",
     icon: ArrowRightIcon,
   },
   {
-    label: "High",
-    value: "high",
+    label: Priority.HIGH,
+    value: "High",
     icon: ArrowUpIcon,
   },
 ]

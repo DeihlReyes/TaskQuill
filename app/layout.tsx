@@ -20,8 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <QueryProvider>
-        <html lang="en" suppressHydrationWarning>
+        <html lang="en">
           <body className={font.className}>
             <ThemeProvider 
               attribute="class"
@@ -29,12 +28,13 @@ export default function RootLayout({
               enableSystem={true}
               storageKey='theme'
             >
-              <ModalProvider />
-              {children}
+              <QueryProvider>
+                <ModalProvider />
+                {children}
+              </QueryProvider>
             </ThemeProvider>
           </body>
         </html>
-      </QueryProvider>
     </ClerkProvider>
   )
 }
