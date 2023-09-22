@@ -1,18 +1,14 @@
-'use client'
-
-import useTasks from "@/hooks/use-tasks";
 import {
     Card,
     CardContent,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Task } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import useCountTask from "@/hooks/use-countTask";
 
-const TaskCard = () => {
-    const taskCounts: Record<string, number> = useCountTask();
+const TaskCard = async () => {
+    const taskCounts: Record<string, number> = await useCountTask();
 
     const tasks = [
         {
@@ -52,7 +48,7 @@ const TaskCard = () => {
                         <CardTitle className="text-lg font-bold">{task.value}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <h1 className={cn("md:text-5xl font-bold", task.color)}>
+                        <h1 className={cn("text-3xl md:text-5xl font-bold", task.color)}>
                             {task.count}
                         </h1>
                     </CardContent>

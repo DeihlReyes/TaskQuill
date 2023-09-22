@@ -1,11 +1,9 @@
-'use client'
-
-import useTasks from "@/hooks/use-tasks";
-import { DataTable } from "../table-components/data-table";
+;import { DataTable } from "../table-components/data-table";
 import { columns } from "../table-components/columns";
+import { getTasks } from "@/actions/get-tasks";
 
-const TaskTable = ({ projectId }: { projectId: string }) => {
-    const {data: tasks = [] } = useTasks();
+const TaskTable = async ({ projectId }: { projectId: string }) => {
+    const tasks = await getTasks();
     
     return(
         <>

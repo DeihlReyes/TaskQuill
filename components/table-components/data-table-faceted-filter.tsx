@@ -72,7 +72,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                         key={option.value}
                         className="rounded-sm px-1 font-normal"
                       >
-                        {option.label}
+                        {option.value}
                       </Badge>
                     ))
                 )}
@@ -88,15 +88,15 @@ export function DataTableFacetedFilter<TData, TValue>({
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
-                const isSelected = selectedValues.has(option.value)
+                const isSelected = selectedValues.has(option.label)
                 return (
                   <CommandItem
                     key={option.value}
                     onSelect={() => {
                       if (isSelected) {
-                        selectedValues.delete(option.value)
+                        selectedValues.delete(option.label)
                       } else {
-                        selectedValues.add(option.value)
+                        selectedValues.add(option.label)
                       }
                       const filterValues = Array.from(selectedValues)
                       column?.setFilterValue(
@@ -117,7 +117,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                     {option.icon && (
                       <option.icon className={cn("mr-2 h-4 w-4 text-muted-foreground", option.color)} />
                     )}
-                    <span>{option.label}</span>
+                    <span>{option.value}</span>
                   </CommandItem>
                 )
               })}

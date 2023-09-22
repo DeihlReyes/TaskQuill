@@ -1,8 +1,9 @@
+import { getTasks } from "@/actions/get-tasks";
 import useTasks from "./use-tasks";
 import { Task, TaskStatus } from "@prisma/client"; // Import the TaskStatus enum
 
-const useCountTask = () => {
-    const { data: tasks = [] } = useTasks();
+const useCountTask = async () => {
+    const tasks = await getTasks(); // Get the tasks from the database
 
     // Initialize an object to store the count of tasks per status
     const taskCountsByStatus = {

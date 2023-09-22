@@ -8,11 +8,10 @@ const Dashboard = () => {
     <div>
       <main className="flex flex-col md:flex-row md:justify-center md:gap-8 p-4">
         <div className="w-full md:w-3/4">
-          <div className="flex flex-wrap md:flex-row gap-y-8 justify-evenly md:justify-between items-center">
+          <div className="flex flex-wrap md:flex-row gap-4 justify-evenly md:justify-between items-center">
             <TaskCard />
           </div>
           <div className="py-12">
-            {/* <DataTable data={Tasks} columns={columns} /> */}
             <TaskTable projectId="gad" />
           </div>
         </div>
