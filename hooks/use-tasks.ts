@@ -1,13 +1,11 @@
-'use client'
-
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const useTasks = () => {
+const useTasks = ({ projectId }: { projectId: string }) => {
     const { data, error, isLoading } = useQuery({
-        queryKey: ["tasks"],
+        queryKey: ["tasks", projectId],
         queryFn: async () => {
-            const response = await axios.get("/api/tasks");
+            const response = await axios.get(`/api/tasks/${projectId}`);
             const data = response.data;
             return data.Task;
         },

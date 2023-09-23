@@ -4,6 +4,7 @@ import { Task } from "@prisma/client";
 
 export const getTasks = async () => {
     const currentProfile = await profile();
+    
     let tasks: Task[];
 
     tasks = await prismaDB.task.findMany({

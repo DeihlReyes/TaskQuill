@@ -10,7 +10,7 @@ export const ProjectToolbars = () => {
 
     return(
         <div className="flex flex-row justify-between">
-            <h1 className="font-bold text-lg md:text-2xl">My Projects</h1>
+            <h1 className="md:text-3xl font-bold">My Projects</h1>
             <Button onClick={() => onOpen("createProject")}>
                 <PlusIcon className="h-4 w-4" />
                 Add Project

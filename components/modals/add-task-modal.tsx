@@ -4,11 +4,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,7 +18,6 @@ import {
   Select,
   SelectContent,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -26,26 +25,24 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useModal } from "@/hooks/use-modal";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Label, Priority, Project } from "@prisma/client";
+import { Label, Priority } from "@prisma/client";
 import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
-import useProject from "@/hooks/use-project";
 
 const formSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
-  priority: z.string().min(1), // You may need to update this validation
-  label: z.string().min(1), // You may need to update this validation
+  priority: z.string().min(1),
+  label: z.string().min(1),
   projectId: z.string().min(1),
 });
 
-export const AddTaskModal = () => {
+export const AddTaskModal = ({ projectId }: { projectId: string }) => {
   const queryClient = useQueryClient();
   const { isOpen, onClose, type } = useModal();
-  const { data: Projects =  []  } = useProject();
 
   const isModalOpen = isOpen && type === "createTask";
 
@@ -64,7 +61,7 @@ export const AddTaskModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const res = await axios.post("/api/add-task", values);
+      const res = await axios.post("/api/add-task", { ...values, projectId });
       if (res.status === 200) {
         console.log(res.data);
         form.reset();
@@ -83,29 +80,14 @@ export const AddTaskModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
-      <DialogContent>
-        <DialogHeader className="pb-8">
+      <DialogContent className="p-8">
+        <DialogHeader>
           <DialogTitle className="font-bold text-xl">Add Task</DialogTitle>
+          <DialogDescription>Add a task for your project.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="space-y-8 px-6">
-              <FormField
-                control={form.control}
-                name="projectId"
-                render={({ field }) => (
-                  <Select onValueChange={field.onChange}>
-                    <SelectTrigger className="w-full border-2 border-[#0d0d0d]/20 dark:border-[#fefefe]/20">
-                        <SelectValue placeholder="Select a project" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {Projects.map((project: Project) => (
-                            <SelectItem key={project.id} value={project.id}>{project.title}</SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-                )}
-              />
+            <div className="space-y-8">
               <FormField
                 control={form.control}
                 name="title"

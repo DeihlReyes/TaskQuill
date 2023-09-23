@@ -1,20 +1,10 @@
-import { SelectProject } from "@/components/select-projects";
-import { TaskToolbar } from "@/components/task-toolbars";
+import { TaskSection } from "@/components/tasks";
 import TaskTable from "@/components/tasks/task-table";
 
-const Tasks = () => {
+const TaskPage = () => {
     return (
-        <div className="md:p-8 p-4 flex flex-col justify-center mx-auto">
-            <div>
-                <TaskToolbar />
-                <SelectProject />
-            </div>
-            <div className="py-12">
-                <TaskTable projectId={"project"} />
-            </div>
-        </div>
+        <TaskSection/>
     );
 }
 
-export default Tasks;
-  
+export default TaskPage;

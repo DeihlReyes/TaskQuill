@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Form, FormField, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,13 +51,14 @@ export const AddProjectModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
-      <DialogContent>
-        <DialogHeader className="pb-8">
+      <DialogContent className="p-8">
+        <DialogHeader>
           <DialogTitle className="font-bold text-xl">Add Project</DialogTitle>
+          <DialogDescription>Add your project here.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="space-y-8 px-6">
+            <div className="space-y-8">
               <FormField
                 control={form.control}
                 name="title"

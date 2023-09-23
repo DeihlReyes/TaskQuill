@@ -8,11 +8,11 @@ import {
   } from "@/components/ui/select"
 import { Project } from "@prisma/client";
 
-export const SelectProject = async () => {
+export const SelectProject = async ({ valueChange }: { valueChange?: (value: any) => void } = {}) => {
     const Projects = await getProjects();
 
-    return(
-        <Select>
+    return (
+        <Select onValueChange={valueChange}>
             <SelectTrigger className="w-3/5 md:w-1/3 border-2 border-[#0d0d0d]/20 dark:border-[#fefefe]/20">
                 <SelectValue placeholder="Select a project" />
             </SelectTrigger>

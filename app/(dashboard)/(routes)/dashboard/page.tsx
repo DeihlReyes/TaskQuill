@@ -12,7 +12,7 @@ const Dashboard = () => {
             <TaskCard />
           </div>
           <div className="py-12">
-            <TaskTable projectId="gad" />
+            <TaskTable projectId={""} />
           </div>
         </div>
         <div className="hidden md:block w-1/4 h-full">
