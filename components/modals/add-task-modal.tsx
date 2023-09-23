@@ -31,6 +31,7 @@ import { z } from "zod";
 import { Label, Priority } from "@prisma/client";
 import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   title: z.string().min(1),
@@ -40,9 +41,10 @@ const formSchema = z.object({
   projectId: z.string().min(1),
 });
 
-export const AddTaskModal = ({ projectId }: { projectId: string }) => {
+export const AddTaskModal = () => {
   const queryClient = useQueryClient();
-  const { isOpen, onClose, type } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
+  const { projectId } = data;
 
   const isModalOpen = isOpen && type === "createTask";
 
@@ -53,15 +55,24 @@ export const AddTaskModal = ({ projectId }: { projectId: string }) => {
       description: "",
       priority: Priority.LOW,
       label: Label.BUG,
-      projectId: "",
+      projectId: projectId || "",
     },
   });
+
+  useEffect(() => {
+    if (projectId) {
+      form.setValue("projectId", projectId);
+    } else {
+      form.setValue("projectId", "");
+    }
+  }, [projectId, form]);
 
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log(values);
     try {
-      const res = await axios.post("/api/add-task", { ...values, projectId });
+      const res = await axios.post("/api/add-task", values);
       if (res.status === 200) {
         console.log(res.data);
         form.reset();

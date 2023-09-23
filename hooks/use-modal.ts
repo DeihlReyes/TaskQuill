@@ -15,7 +15,7 @@ interface ModalStore {
   type: ModalType | null;
   data: ModalData;
   isOpen: boolean;
-  onOpen: (type: ModalType, data?: ModalData, projectId?: string) => void; // Include projectId parameter here
+  onOpen: (type: ModalType, data?: ModalData) => void; // Include projectId parameter here
   onClose: () => void;
 }
 
@@ -23,6 +23,6 @@ export const useModal = create<ModalStore>((set) => ({
   type: null,
   data: {},
   isOpen: false,
-  onOpen: (type, data = {}, projectId?: string) => set({ isOpen: true, type, data: { ...data, projectId } }),
+  onOpen: (type, data = {}) => set({ isOpen: true, type, data }),
   onClose: () => set({ type: null, isOpen: false })
 }));
