@@ -6,7 +6,7 @@ import useTasks from "@/hooks/use-tasks";
 import { Task } from "@prisma/client";
 import { Skeleton } from "../ui/skeleton";
 
-const TaskTable = ({ projectId }: { projectId: string | null }) => {
+const TaskTable = ({ projectId }: { projectId: string }) => {
   const { data, isLoading } = useTasks({projectId});
   console.log("ProjectID from task-table: ", projectId)
   let tasks: Task[] = [];

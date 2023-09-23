@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const useTasks = ({ projectId }: { projectId: string }) => {
+const useTasks = ({ projectId }: { projectId: string}) => {
     const { data, error, isLoading } = useQuery({
         queryKey: ["tasks", projectId],
         queryFn: async () => {
