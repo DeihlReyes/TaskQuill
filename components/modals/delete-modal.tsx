@@ -12,10 +12,12 @@ import {
 } from "@/components/ui/alert-dialog"
 import axios from "axios";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 
 export const DeleteModal = () => {
   const { isOpen, onClose, type, data } = useModal();
+  const router = useRouter();
 
   const taskId = data?.taskId
 
@@ -25,7 +27,7 @@ export const DeleteModal = () => {
     try {
       const response = await axios.delete(`/api/task/${taskId}`);
       if (response.status === 200) {
-        window.location.reload();
+        router.refresh()
         onClose();
       }
     } catch (error) {
