@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { ProjectWithTask } from "@/types";
 import { format } from "date-fns";
-import { getProject } from "@/actions/get-projects";
+import { getProject } from "@/actions/get-project";
 
 export const ProjectTiles = async () => {
   const projects = await getProject();

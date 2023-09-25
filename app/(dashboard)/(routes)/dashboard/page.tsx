@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { cn } from "@/lib/utils";
-import TaskTable from "@/components/tasks/task-table";
+import TaskTable from "@/components/task-table";
 import { getTaskCount } from "@/actions/get-task-count";
 import { getTasks } from "@/actions/get-task";
 import { DataTable } from "@/components/table-components/data-table";

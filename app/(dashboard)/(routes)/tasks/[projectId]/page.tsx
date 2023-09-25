@@ -1,6 +1,6 @@
 import { ProjectTitle } from "@/components/project-title";
 import { TaskToolbar } from "@/components/task-toolbars";
-import TaskTable from "@/components/tasks/task-table";
+import TaskTable from "@/components/task-table";
 
 const TaskPage = async (
     {params} : {params: {projectId: string}}

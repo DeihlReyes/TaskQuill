@@ -1,5 +1,5 @@
 import { Project } from "@prisma/client";
-import { getProject } from "@/actions/get-projects";
+import { getProject } from "@/actions/get-project";
 
 export const ProjectTitle = async ({ projectId }: { projectId: string }) => {
     const projects = await getProject();

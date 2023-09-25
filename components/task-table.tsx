@@ -1,5 +1,5 @@
-import { DataTable } from "../table-components/data-table";
-import { columns } from "../table-components/columns";
+import { DataTable } from "./table-components/data-table";
+import { columns } from "./table-components/columns";
 import { getTasks } from "@/actions/get-task";
 
 const TaskTable = async ({ projectId }: { projectId: string }) => {
