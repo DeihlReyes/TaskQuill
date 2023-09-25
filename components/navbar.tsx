@@ -14,7 +14,7 @@ const Navbar = async () => {
     });
     
     return ( 
-      <div className="flex justify-between items-center py-6 px-4">
+      <div className="flex justify-between items-center md:p-8 p-6">
         <MobileSidebar/>
         <div className="flex w-full justify-end md:justify-between">
           <div className="hidden md:block">

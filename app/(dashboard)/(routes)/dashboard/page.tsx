@@ -19,20 +19,20 @@ const Dashboard = async () => {
   const taskStatusCount = getTaskCount({ tasks: task });
 
   return (
-    <div>
-      <main className="flex flex-col md:flex-row md:justify-center md:gap-8 p-4">
+    <div className="md:p-8 p-6">
+      <main className="flex flex-col md:flex-row md:justify-center md:gap-8">
         <div className="w-full md:w-3/4">
-          <div className="flex flex-wrap md:flex-row gap-4 justify-evenly md:justify-between items-center">
+          <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
             {taskStatusCount.map((task) => (
               <Card
                   key={task.label}
-                  className="w-40 md:w-52 text-center shadow-md dark:shadow-[#fefefe]/20 shadow-[#0d0d0d]/20 hover:scale-105"
+                  className="md:w-52 w-40 text-center shadow-md dark:shadow-[#fefefe]/20 shadow-[#0d0d0d]/20 hover:scale-105"
               >
                   <CardHeader>
                       <CardTitle className="text-lg font-bold">{task.value}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                      <h1 className={cn("text-3xl md:text-5xl font-bold", task.color)}>
+                      <h1 className={cn("text-[40px] md:text-[50px] font-bold leading-none", task.color)}>
                           {task.count}
                       </h1>
                   </CardContent>
