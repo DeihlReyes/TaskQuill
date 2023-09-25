@@ -1,5 +1,3 @@
-'use client'
-
 import {
   Card,
   CardContent,
@@ -8,27 +6,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import useProject from "@/hooks/use-project";
 import { ProjectWithTask } from "@/types";
 import { format } from "date-fns";
-import { Skeleton } from "./ui/skeleton";
+import { getProject } from "@/actions/get-projects";
 
-export const ProjectTiles = () => {
-  const { data: projects, isLoading} = useProject();
+export const ProjectTiles = async () => {
+  const projects = await getProject();
 
   return (
     <div>
       <div className="grid gap-8 py-12 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
-        {isLoading ? (
-          Array.from({ length: 3 }).map((_, index) => (
-            <div key={index} className="cursor-pointer">
-              <Skeleton className="h-56"/>
-            </div>
-          ))
-        ) : projects && projects.length > 0 ? (
+        {projects && projects.length > 0 ? (
           projects.map((project: ProjectWithTask) => (
             <div key={project.id} className="cursor-pointer">
-              <a href={`/tasks?projectId=${project.id}`} className="block h-full">
+              <a href={`/tasks/${project.id}`} className="block h-full">
                 <Card className="h-full shadow-lg dark:shadow-[#fefefe]/20 shadow-[#0d0d0d]/20 hover:scale-105">
                   <CardHeader>
                     <CardTitle className="text-xl font-bold">{project.title}</CardTitle>

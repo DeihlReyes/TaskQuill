@@ -1,22 +1,20 @@
 import { prismaDB } from "@/lib/prismaDb";
 import { profile } from "@/lib/profile";
-import { ProjectWithTask } from "@/types";
+import { Project, Task } from "@prisma/client";
 
-export const getProjects = async () => {
+export const getProject = async () => {
     const currentProfile = await profile();
 
-    let projects: ProjectWithTask[];
-
-    projects = await prismaDB.project.findMany({
+    const projects = await prismaDB.project.findMany({
         where: {
-            userId: currentProfile.id
+            userId: currentProfile.id,
         },
         include: {
-            task: true
+            task: true,
         },
         orderBy: {
-            created: "desc"
-        }
+            created: "desc",
+        },
     });
 
     return projects;

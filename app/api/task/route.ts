@@ -1,8 +1,7 @@
 import { prismaDB } from "@/lib/prismaDb";
 import { profile } from "@/lib/profile";
-import { Label, Priority, Task, TaskStatus } from "@prisma/client";
+import { Label, Priority, TaskStatus } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { string } from "zod";
 
 export async function POST(req: Request) {
     try {
@@ -13,7 +12,6 @@ export async function POST(req: Request) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        // Map priority and label string values to enum values
         const prioritValue = mapPriority(priority);
         const labelValue = mapLabel(label);
 
@@ -23,24 +21,21 @@ export async function POST(req: Request) {
 
         const taskNumber = await prismaDB.task.count() + 1;
 
-        await prismaDB.task.create({
+        const res = await prismaDB.task.create({
             data: {
                 id: `Task-${taskNumber}`,
                 title,
                 description,
                 status: TaskStatus.TODO,
                 priority: prioritValue,
-                label: labelValue,
-                projectId,
+                projectId: projectId,
                 userId: currentProfile.id,
+                label: labelValue,
             },
         });
 
-        // Return a success response
-        return new NextResponse("Task created successfully" , { status: 200 });
-
+        return new NextResponse("Task Created Successfully", { status: 200 });
     } catch (error) {
-        // Handle errors appropriately
         console.error(error);
         return new NextResponse("Internal Server Error", { status: 500 });
     }

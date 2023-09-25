@@ -8,7 +8,8 @@ interface ModalData {
   tasks?: Task;
   apiUrl?: string;
   query?: Record<string, any>;
-  projectId?: string; // Add projectId property here
+  projectId?: string;
+  taskId?: string;
 }
 
 interface ModalStore {

@@ -42,7 +42,6 @@ const formSchema = z.object({
 });
 
 export const AddTaskModal = () => {
-  const queryClient = useQueryClient();
   const { isOpen, onClose, type, data } = useModal();
   const { projectId } = data;
 
@@ -70,17 +69,15 @@ export const AddTaskModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
     try {
-      const res = await axios.post("/api/add-task", values);
+      const res = await axios.post("/api/task", values);
       if (res.status === 200) {
         console.log(res.data);
         form.reset();
         onClose();
-        queryClient.invalidateQueries(["tasks"]);
       }
     } catch (error) {
-      console.log(error);
+      console.log("Error creating task", error);
     }
   };
 
