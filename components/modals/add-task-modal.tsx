@@ -30,7 +30,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Label, Priority } from "@prisma/client";
 import axios from "axios";
-import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const formSchema = z.object({
@@ -42,9 +42,9 @@ const formSchema = z.object({
 });
 
 export const AddTaskModal = () => {
-  const queryClient = useQueryClient();
   const { isOpen, onClose, type, data } = useModal();
   const { projectId } = data;
+  const router = useRouter();
 
   const isModalOpen = isOpen && type === "createTask";
 
@@ -70,17 +70,16 @@ export const AddTaskModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
     try {
-      const res = await axios.post("/api/add-task", values);
+      const res = await axios.post("/api/task", values);
       if (res.status === 200) {
         console.log(res.data);
         form.reset();
+        router.refresh();
         onClose();
-        queryClient.invalidateQueries(["tasks"]);
       }
     } catch (error) {
-      console.log(error);
+      console.log("Error creating task", error);
     }
   };
 

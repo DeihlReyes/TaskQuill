@@ -18,11 +18,6 @@ const routes = [
         href: '/projects',
     },
     {
-        label: 'Tasks',
-        icon: ScrollText,
-        href: '/tasks',
-    },
-    {
         label: 'Meetings',
         icon: Presentation,
         href: '/meetings',

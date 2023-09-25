@@ -4,10 +4,9 @@ import { MobileSidebar } from "./mobile-sidebar";
 import { ModeToggle } from "./theme-toggle";
 
 const Navbar = async () => {
-    const userProfile = await profile();
+    const currentProfile = await profile();
     const currentDate = new Date();
 
-    // Format the date using toLocaleDateString()
     const formattedDate = currentDate.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
@@ -19,7 +18,7 @@ const Navbar = async () => {
         <MobileSidebar/>
         <div className="flex w-full justify-end md:justify-between">
           <div className="hidden md:block">
-              <p className="font-bold text-md">Welcome back, {userProfile.name}</p>
+              <p className="font-bold text-md">Welcome back, {currentProfile.name}</p>
               <p>{formattedDate}</p>
           </div>
           <div className="flex flex-row items-center justify-center gap-4 my-auto">

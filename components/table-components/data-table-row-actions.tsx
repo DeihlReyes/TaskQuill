@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { labels } from "@/components/table-components/data/data"
+import { labels, statuses } from "@/components/table-components/data/data"
 import { taskSchema } from "@/components/table-components/data/schema"
 import { useModal } from "@/hooks/use-modal";
 
@@ -58,7 +58,20 @@ export function DataTableRowActions<TData>({
           </DropdownMenuSubContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => onOpen("deleteTask")}>
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
+            <DropdownMenuRadioGroup value={task.status}>
+              {statuses.map((status) => (
+                <DropdownMenuRadioItem key={status.label} value={status.label}>
+                  {status.value}
+                </DropdownMenuRadioItem>
+              ))}
+            </DropdownMenuRadioGroup>
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => onOpen("deleteTask", {taskId: task.id})}>
           Delete
           <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>

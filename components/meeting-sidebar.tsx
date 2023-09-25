@@ -48,7 +48,7 @@ export const MeetingSidebar = () => {
         <div className="space-y-4">
           {routes.map((route) => (
             <Card 
-              key={null}
+              key={route.title}
               className="border-2"
             
             >
