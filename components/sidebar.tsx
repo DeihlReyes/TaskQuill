@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { FolderKanban, LayoutDashboard, ScrollText, Presentation, Settings, Shapes} from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 
@@ -32,7 +32,11 @@ const routes = [
 
 export const Sidebar = () => {
   const pathname = usePathname();
-  const { theme } = useTheme(); 
+  const router = useRouter();
+
+  const navigateTo = (href: string) => () => {
+    router.push(href);
+  };
 
   return (
     <div className="space-y-4 py-4 flex flex-col h-full border border-solid border-[#0d0d0d]/10 dark:border-[#fefefe]/10 shadow-lg dark:shadow-[#fefefe]/10 shadow-[#0d0d0d]/10">
@@ -47,9 +51,9 @@ export const Sidebar = () => {
         </Link>
         <div className="space-y-1">
           {routes.map((route) => (
-            <Link
+            <button
               key={route.href} 
-              href={route.href}
+              onClick={navigateTo(route.href)}
               className={cn(
                 "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:bg-[#0d0d0d]/10 rounded-lg transition",
                 pathname === route.href ? "bg-[#0d0d0d]/10 dark:bg-[#fefefe]/10" : "bg-transparent",
@@ -59,7 +63,7 @@ export const Sidebar = () => {
                 <route.icon className="h-5 w-5 mr-3" />
                 {route.label}
               </div>
-            </Link>
+            </button>
           ))}
         </div>
       </div>
