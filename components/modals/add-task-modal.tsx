@@ -28,10 +28,17 @@ import { useModal } from "@/hooks/use-modal";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Label, Priority } from "@prisma/client";
+import { Label, Priority, User } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "../ui/calendar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useQuery } from "@tanstack/react-query";
 
 const formSchema = z.object({
   title: z.string().min(1),
@@ -39,6 +46,10 @@ const formSchema = z.object({
   priority: z.string().min(1),
   label: z.string().min(1),
   projectId: z.string().min(1),
+  assigneeId: z.string().min(1),
+  dueDate: z.date({
+    required_error: "A due date is required.",
+  }),
 });
 
 export const AddTaskModal = () => {
@@ -48,6 +59,11 @@ export const AddTaskModal = () => {
 
   const isModalOpen = isOpen && type === "createTask";
 
+  const { data: users } = useQuery(["users"], async () => {
+    const res = await axios.get("/api/users");
+    return res.data;
+  });
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,6 +72,8 @@ export const AddTaskModal = () => {
       priority: Priority.LOW,
       label: Label.BUG,
       projectId: projectId || "",
+      assigneeId: "",
+      dueDate: new Date(),
     },
   });
 
@@ -88,12 +106,15 @@ export const AddTaskModal = () => {
     onClose();
   };
 
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="p-8">
         <DialogHeader>
           <DialogTitle className="font-bold text-xl">Add Task</DialogTitle>
-          <DialogDescription>Add a task for your project.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -138,6 +159,46 @@ export const AddTaskModal = () => {
                   </FormItem>
                 )}
               />
+              <FormField
+                  control={form.control}
+                  name="dueDate"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col w-full">
+                      <FormLabel>Due Date</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date < yesterday
+                            }
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               <div className="flex flex-row gap-8">
                 {/* Priority Select */}
                 <FormField
@@ -189,6 +250,36 @@ export const AddTaskModal = () => {
                   )}
                 />
               </div>
+              <FormField
+                  control={form.control}
+                  name="assigneeId"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col w-full">
+                      <FormLabel className="font-semibold">Assignee</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue className="py-4" placeholder="Select an Assignee" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {users?.map((user: User) => (
+                            <SelectItem key={user.id} value={user.id} className="p-2">
+                              <div className="flex flex-row justify-center items-center gap-4">
+                                <Avatar className="w-8 h-8">
+                                  <AvatarImage src={user.imageUrl || ""} alt={user.name} />
+                                  <AvatarFallback>{user.name}</AvatarFallback>
+                                </Avatar>
+                                <h1>{user.name}</h1>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
             </div>
             <DialogFooter>
               <Button type="submit" disabled={isLoading}>

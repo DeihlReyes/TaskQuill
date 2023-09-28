@@ -1,5 +1,5 @@
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Form, FormField, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,16 +8,18 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "axios";
-import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 
 const formSchema = z.object({
   title: z.string().min(1).max(200),
-  description: z.string().min(1)
+  description: z.string().min(1),
+  projectTag: z.string().min(4).max(4).toUpperCase(),
 });
 
 export const AddProjectModal = () => {
   const { isOpen, onClose, type } = useModal();
-  const queryClient = useQueryClient();
+  const router = useRouter();
 
   const isModalOpen = isOpen && type === "createProject";
 
@@ -26,6 +28,7 @@ export const AddProjectModal = () => {
     defaultValues: {
       title: "",
       description: "",
+      projectTag: "",
     }
   });
 
@@ -33,11 +36,11 @@ export const AddProjectModal = () => {
 
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (values) => {
     try {
-      const res = await axios.post("/api/add-project", values);
+      const res = await axios.post("/api/project", values);
       if (res.status === 200) {
         form.reset();
+        router.refresh();
         onClose();
-        queryClient.invalidateQueries(["projects"]);
       }
     } catch (error) {
       console.log(error);
@@ -63,33 +66,56 @@ export const AddProjectModal = () => {
                 control={form.control}
                 name="title"
                 render={({ field }) => (
-                  <div>
+                  <FormItem>
                     <FormLabel className="text-md font-semibold">Project Title</FormLabel>
-                    <Input
-                      disabled={isLoading}
-                      className="border-0 bg-[#0d0d0d]/10 dark:bg-[#fefefe]/10 focus-visible:ring-0 focus-visible:ring-offset-0"
-                      placeholder="Enter Project Title"
-                      {...field}
-                    />
+                    <FormControl>
+                      <Input
+                        disabled={isLoading}
+                        className="border-0 bg-[#0d0d0d]/10 dark:bg-[#fefefe]/10 focus-visible:ring-0 focus-visible:ring-offset-0"
+                        placeholder="Enter Project Title"
+                        {...field}
+                      />
+                    </FormControl>
                     <FormMessage />
-                  </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="projectTag"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-md font-semibold">Project Tag</FormLabel>
+                    <FormControl>
+                      <Input
+                        maxLength={4}
+                        disabled={isLoading}
+                        className="border-0 bg-[#0d0d0d]/10 dark:bg-[#fefefe]/10 focus-visible:ring-0 focus-visible:ring-offset-0"
+                        placeholder="Enter Project Title"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
                 name="description"
                 render={({ field }) => (
-                  <div>
+                  <FormItem>
                     <FormLabel className="text-md font-semibold">Project Description</FormLabel>
-                    <Textarea
-                      disabled={isLoading}
-                      maxLength={200}
-                      className="h-[110px] border-0 bg-[#0d0d0d]/10 dark:bg-[#fefefe]/10 focus-visible:ring-0 focus-visible:ring-offset-0"
-                      placeholder="Enter Project Description"
-                      {...field}
-                    />
+                    <FormControl>
+                      <Textarea
+                        disabled={isLoading}
+                        maxLength={200}
+                        className="h-[110px] border-0 bg-[#0d0d0d]/10 dark:bg-[#fefefe]/10 focus-visible:ring-0 focus-visible:ring-offset-0"
+                        placeholder="Enter Project Description"
+                        {...field}
+                      />
+                    </FormControl>
                     <FormMessage />
-                  </div>
+                  </FormItem>
                 )}
               />
             </div>

@@ -1,6 +1,6 @@
 import { prismaDB } from "@/lib/prismaDb";
 import { profile } from "@/lib/profile";
-import { Task } from "@prisma/client";
+import { Task, User } from "@prisma/client";
 
 export const getTasks = async (
     { projectId, taskId }: { projectId?: string, taskId?: string } = {}
@@ -8,11 +8,11 @@ export const getTasks = async (
     const currentProfile = await profile();
 
     const whereClause: {
-        userId: string;
+        assigneeId?: string;
         projectId?: string;
         taskId?: string;
     } = {
-        userId: currentProfile.id,
+        assigneeId: currentProfile.id,
     };
 
     if (projectId) {

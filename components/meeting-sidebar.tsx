@@ -29,12 +29,6 @@ const routes = [
         Link: '/meetings',
         date: '2021-10-20',
     },
-    {
-        title: 'Emergency Meeting',
-        Link: '/settings',
-        date: '2021-10-20',
-    }
-
 ];
 
 export const MeetingSidebar = () => {
@@ -50,7 +44,6 @@ export const MeetingSidebar = () => {
             <Card 
               key={route.title}
               className="border-2"
-            
             >
                 <CardHeader>
                     <CardTitle className="text-lg">{route.title}</CardTitle>

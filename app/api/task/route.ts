@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
     try {
-        const { title, description, priority, label, projectId } = await req.json();
+        const { title, description, priority, label, projectId, dueDate } = await req.json();
         const currentProfile = await profile();
 
         if (!currentProfile) {
@@ -19,17 +19,40 @@ export async function POST(req: Request) {
             return new NextResponse("Invalid priority or label", { status: 400 });
         }
 
-        const taskNumber = await prismaDB.task.count() + 1;
+        const project = await prismaDB.project.findUnique({
+            where: {
+                id: projectId,
+            },
+            include: {
+                task: true,
+            },
+        });
+
+        //check the highest taskID but first remove the word "tasks-" from the id
+        //get tasks from the project
+        const tasks = project?.task;
+        const projectTag = project?.projectTag;
+        const taskID = tasks?.map((task) => task.id.split("-")[1]);
+        const taskIDNumbers = taskID?.map(id => parseInt(id));
+
+        let highestTaskID = 0;
+        if (taskIDNumbers?.length === 0) {
+            highestTaskID = 0;
+        } else {
+            highestTaskID = Math.max(...taskIDNumbers!);
+        }
+        const taskNumber = highestTaskID + 1;
 
         const res = await prismaDB.task.create({
             data: {
-                id: `Task-${taskNumber}`,
+                id: `${projectTag}-${taskNumber}`,
                 title,
                 description,
                 status: TaskStatus.TODO,
                 priority: prioritValue,
+                dueDate,
+                assigneeId: currentProfile.id,
                 projectId: projectId,
-                userId: currentProfile.id,
                 label: labelValue,
             },
         });

@@ -8,7 +8,7 @@ const DashboardLayout = async ({
 }) => {
 
   return ( 
-    <div className="h-full relative overflow-clip">
+    <div className="h-full relative overflow-clip transition-all ease-linear">
       <div className="hidden h-full w-screen md:flex md:w-60 md:flex-col md:fixed md:inset-y-0">
         <Sidebar/>
       </div>

@@ -7,7 +7,18 @@ export const getProject = async () => {
 
     const projects = await prismaDB.project.findMany({
         where: {
-            userId: currentProfile.id,
+            OR: [
+                {
+                    ownerId: currentProfile.id,
+                },
+                {
+                    members: {
+                        some: {
+                            id: currentProfile.id,
+                        },
+                    },
+                },
+            ],
         },
         include: {
             task: true,

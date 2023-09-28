@@ -4,12 +4,12 @@ import { ColumnDef } from "@tanstack/react-table"
 
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Label, Priority, TaskStatus } from "@prisma/client"
 import { labels, priorities, statuses } from "@/components/table-components/data/data"
 import { Task } from "@/components/table-components/data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { cn } from "@/lib/utils"
+import AssigneeCard from "../assignee-card"
 
 export const columns: ColumnDef<Task>[] = [
   {
@@ -36,9 +36,9 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Task" />
+      <DataTableColumnHeader column={column} title="Task ID" />
     ),
-    cell: ({ row }) => <div className="w-[70px]">{row.getValue("id")}</div>,
+    cell: ({ row }) => <div className="w-[60px]">{row.getValue("id")}</div>,
     enableSorting: false,
     enableHiding: false,
   },
@@ -112,6 +112,36 @@ export const columns: ColumnDef<Task>[] = [
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id))
+    },
+  },
+  {
+    accessorKey: "dueDate",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Due Date" />
+    ),
+    cell: ({ row }) => {
+      const value = row.getValue("dueDate");
+      return (
+        <div className="w-[70px]">
+          {typeof value === 'object' && value instanceof Date
+            ? value.toLocaleDateString()
+            : String(value)}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "assigneeId",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Assignee" />
+    ),
+    cell: ({ row }) => {
+      const userId = row.getValue("assigneeId")
+      return (
+        <div className="p-0">
+          <AssigneeCard userId={userId as string} />
+        </div>
+      )
     },
   },
   {
