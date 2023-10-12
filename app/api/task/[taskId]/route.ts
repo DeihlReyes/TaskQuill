@@ -16,8 +16,6 @@ export async function DELETE(
 
         const taskId = params.taskId;
 
-        console.log("Task from Server", taskId);
-
         const deletedTask = await prismaDB.task.delete({
             where: {
                 id: taskId,

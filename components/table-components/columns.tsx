@@ -75,7 +75,7 @@ export const columns: ColumnDef<Task>[] = [
       }
 
       return (
-        <div className="flex w-[100px] items-center">
+        <div className="flex w-[80px] items-center">
           {status.icon && (
             <status.icon className={cn("mr-2 h-4 w-4 text-muted-foreground", status.color)} />
           )}
@@ -120,14 +120,25 @@ export const columns: ColumnDef<Task>[] = [
       <DataTableColumnHeader column={column} title="Due Date" />
     ),
     cell: ({ row }) => {
-      const value = row.getValue("dueDate");
-      return (
-        <div className="w-[70px]">
-          {typeof value === 'object' && value instanceof Date
-            ? value.toLocaleDateString()
-            : String(value)}
-        </div>
-      );
+      const value = row.getValue("dueDate")!.toString();
+      
+      // Check if value is not null or undefined
+      if (value) {
+        const date = new Date(value);
+        const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+        
+        return (
+          <div className="w-[70px]">
+            {formattedDate}
+          </div>
+        );
+      } else {
+        return (
+          <div className="w-[70px]">
+            N/A
+          </div>
+        );
+      }
     },
   },
   {

@@ -25,7 +25,7 @@ const AssigneeCard: React.FC<AssigneeCardProps> = ({ userId }) => {
   return (
     <div className="flex flex-row justify-start items-center gap-4">
       {user && (
-        <Avatar className="w-8 h-8">
+        <Avatar className="w-7 h-7">
           <AvatarImage src={user.imageUrl || ""} alt={user.name} />
           <AvatarFallback>{user.name}</AvatarFallback>
         </Avatar>

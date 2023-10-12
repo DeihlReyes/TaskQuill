@@ -6,10 +6,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Badge } from "./ui/badge";
 import { ProjectWithTask } from "@/types";
 import { format } from "date-fns";
 import { getProject } from "@/actions/get-project";
-import { Badge } from "./ui/badge";
+import { Button } from "react-day-picker";
+
 
 export const ProjectTiles = async () => {
   const projects = await getProject();
@@ -20,7 +22,7 @@ export const ProjectTiles = async () => {
         projects.map((project: ProjectWithTask) => (
           <div key={project.id} className="cursor-pointer">
             <a href={`/tasks/${project.id}`} className="block h-full">
-              <Card className="h-full shadow-lg dark:shadow-[#fefefe]/20 shadow-[#0d0d0d]/20 hover:scale-105 active:scale-100 transition-all ease-in-out">
+              <Card className="h-full hover:scale-105 active:scale-100 transition-all ease-in-out">
                 <CardHeader>
                   <CardTitle className="flex flex-row justify-between font-bold">
                     <div className="text-xl ">{project.title}</div> 

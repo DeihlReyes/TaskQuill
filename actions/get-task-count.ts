@@ -1,4 +1,5 @@
 import { Task } from "@prisma/client";
+import { ListChecks } from "lucide-react";
 
 export const getTaskCount = ({ tasks }: { tasks: Task[] }) => {
     const taskCounts = (status: string) => {
@@ -10,25 +11,29 @@ export const getTaskCount = ({ tasks }: { tasks: Task[] }) => {
             label: "TODO",
             value: "Todo",
             count: taskCounts("TODO"),
-            color: "text-blue-500"
+            color: "bg-blue-500",
+            icon: "ListChecks"
         },
         {
             label: "IN_PROGRESS",
             value: "In Progress",
             count: taskCounts("IN_PROGRESS"),
-            color: "text-yellow-500"
+            color: "bg-yellow-500",
+            icon: "ListChecks"
         },
         {
             label: "DONE",
             value: "Completed",
             count: taskCounts("DONE"),
-            color: "text-green-500"
+            color: "bg-green-500",
+            icon: "ListChecks"
         },
         {
             label: "CANCELLED",
             value: "Cancelled",
             count: taskCounts("CANCELLED"),
-            color: "text-red-500"
+            color: "bg-red-500",
+            icon: "ListChecks"
         },
     ]
 

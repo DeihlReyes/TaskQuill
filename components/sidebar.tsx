@@ -38,11 +38,11 @@ export const Sidebar = () => {
   };
 
   return (
-    <div className="space-y-4 py-4 flex flex-col h-full border border-solid border-[#0d0d0d]/10 dark:border-[#fefefe]/10 shadow-lg dark:shadow-[#fefefe]/10 shadow-[#0d0d0d]/10">
+    <div className="space-y-4 py-4 flex flex-col h-full border border-solid bg-background border-[#0d0d0d]/10 dark:border-[#fefefe]/10">
       <div className="px-3 py-2 flex-1">
         <Link href="/dashboard" className="flex items-center pl-3 mb-14">
           <div className="relative h-8 w-8 mr-4">
-            <Shapes className="absolute h-full w-full text-blue-700" />
+            <Shapes className="absolute h-full w-full text-primary" />
           </div>
           <h1 className="text-2xl font-bold">
             TaskQuill
@@ -55,7 +55,7 @@ export const Sidebar = () => {
               onClick={navigateTo(route.href)}
               className={cn(
                 "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:bg-[#0d0d0d]/10 dark:hover:bg-[#fefefe]/10 rounded-lg transition-colors duration-200 ease-in-out",
-                pathname === route.href ? "bg-[#0d0d0d]/10 dark:bg-[#fefefe]/10" : "bg-transparent",
+                pathname === route.href ? "bg-[#5b5b5b]/10 dark:bg-[#fefefe]/10" : "bg-[transparent]",
               )}
             >
               <div className="flex items-center flex-1">

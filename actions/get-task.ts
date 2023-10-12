@@ -3,7 +3,7 @@ import { profile } from "@/lib/profile";
 import { Task, User } from "@prisma/client";
 
 export const getTasks = async (
-    { projectId, taskId }: { projectId?: string, taskId?: string } = {}
+    { projectId, taskId, userId }: { projectId?: string, taskId?: string, userId?: string } = {}
 ) => {
     const currentProfile = await profile();
 

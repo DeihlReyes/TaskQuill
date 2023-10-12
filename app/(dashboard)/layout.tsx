@@ -9,13 +9,13 @@ const DashboardLayout = async ({
 
   return ( 
     <div className="h-full relative overflow-clip transition-all ease-linear">
-      <div className="hidden h-full w-screen md:flex md:w-60 md:flex-col md:fixed md:inset-y-0">
+      <div className="hidden h-full w-screen md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
         <Sidebar/>
       </div>
-      <main className="md:pl-60">
+      <div className="md:pl-64">
         <Navbar />
         {children}
-      </main>
+      </div>
     </div>
    );
 }
