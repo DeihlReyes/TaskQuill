@@ -8,11 +8,10 @@ export const getTasks = async (
     const currentProfile = await profile();
 
     const whereClause: {
-        assigneeId?: string;
         projectId?: string;
         taskId?: string;
     } = {
-        assigneeId: currentProfile.id,
+        
     };
 
     if (projectId) {

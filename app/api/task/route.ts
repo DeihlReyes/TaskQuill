@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
     try {
-        const { title, description, priority, label, projectId, dueDate } = await req.json();
+        const { title, description, priority, label, projectId, dueDate, assigneeId } = await req.json();
         const currentProfile = await profile();
 
         if (!currentProfile) {
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
                 status: TaskStatus.TODO,
                 priority: prioritValue,
                 dueDate,
-                assigneeId: currentProfile.id,
+                assigneeId: assigneeId,
                 projectId: projectId,
                 label: labelValue,
             },

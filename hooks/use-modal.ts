@@ -1,7 +1,7 @@
 import { Project, Task } from "@prisma/client";
 import { create } from "zustand";
 
-export type ModalType = "createProject" | "createTask" | "deleteTask";
+export type ModalType = "createProject" | "createTask" | "deleteTask" | "createMeeting";
 
 interface ModalData {
   project?: Project;

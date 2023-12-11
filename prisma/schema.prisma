@@ -18,6 +18,7 @@ model User {
   updated  DateTime  @updatedAt
   projects Project[]
   Tasks    Task[]
+  meetings Meeting[]
   imageUrl String?
 }
 
@@ -47,6 +48,18 @@ model Task {
   updated     DateTime   @updatedAt
   project     Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
   user        User       @relation(fields: [assigneeId], references: [id], onDelete: Cascade)
+}
+
+model Meeting {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  date        DateTime
+  link        String
+  userId      String
+  created     DateTime @default(now())
+  updated     DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 

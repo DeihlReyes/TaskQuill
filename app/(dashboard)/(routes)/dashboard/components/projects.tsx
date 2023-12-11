@@ -40,8 +40,7 @@ const Projects = async () => {
             </CardHeader>
             <CardContent className="h-full pb-4">
                 <div className="grid gap-4 grid-cols-1 lg:grid-cols-3 py-4 w-full justify-center items-center">
-                    {firstTwoProjects && firstTwoProjects.length > 0 ? (
-                        firstTwoProjects.map((project: ProjectWithTask) => (
+                    {firstTwoProjects.map((project: ProjectWithTask) => (
                         <div key={project.id} className="cursor-pointer">
                             <a href={`/tasks/${project.id}`} className="block h-full">
                             <Card className="w-full shadow-sm border border-slate-300 dark:border-slate-600">
@@ -67,11 +66,7 @@ const Projects = async () => {
                             </Card>
                             </a>
                         </div>
-                        ))
-                    ) : (
-                        <p className="text-center mt-8 text-gray-400">No projects yet, create now!</p>
-                    )}
-
+                    ))}
                     <a href={'/projects'} className="block h-full">
                         <Card className="w-full shadow-sm border border-slate-300 dark:border-slate-600">
                             <CardHeader className="flex flex-col justify-center items-center pt-4">
