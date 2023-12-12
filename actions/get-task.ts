@@ -8,10 +8,15 @@ export const getTasks = async (
     const currentProfile = await profile();
 
     const whereClause: {
+        assigneeId?: string;
         projectId?: string;
         taskId?: string;
     } = {
         
+    };
+
+    if(userId) {
+        whereClause.assigneeId = userId;
     };
 
     if (projectId) {
@@ -24,6 +29,9 @@ export const getTasks = async (
 
     const tasks: Task[] = await prismaDB.task.findMany({
         where: whereClause,
+        orderBy: {
+            created: "asc",
+        }
     });
 
     return tasks;

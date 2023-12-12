@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import axios from "axios";
 
 interface AssigneeCardProps {
   userId: string;
@@ -8,19 +9,17 @@ interface AssigneeCardProps {
 const AssigneeCard: React.FC<AssigneeCardProps> = ({ userId }) => {
   const [user, setUser] = useState<any>(null);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch(`/api/users/${userId}`);
-        const userData = await response.json();
-        setUser(userData);
-      } catch (error) {
-        console.error("Error fetching user data", error);
-      }
-    };
+  const users = async () => {
+    try {
+      const response = await axios.get(`/api/users/${userId}`);
+      const userData = await response.data;
+      setUser(userData);
+    } catch (error) {
+      console.error("Error fetching user data", error);
+    }
+  };
 
-    fetchUser();
-  }, [userId]);
+  users();
 
   return (
     <div className="flex flex-row justify-start items-center gap-4">

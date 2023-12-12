@@ -23,6 +23,7 @@ export async function PATCH(
       },
       data: {
         label: label,
+        updated: new Date(),
       },
     });
 

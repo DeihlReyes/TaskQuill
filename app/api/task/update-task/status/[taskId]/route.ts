@@ -24,6 +24,7 @@ export async function PATCH(
       },
       data: {
         status: status,
+        updated: new Date(),
       },
     });
 

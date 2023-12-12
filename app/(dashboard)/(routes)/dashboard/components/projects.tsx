@@ -24,7 +24,8 @@ const Projects = async () => {
         const project = projects.find((project) => project.id === projectId);
         const totalTasks = project?.task.length;
         const completedTasks = project?.task.filter((task) => task.status === TaskStatus.DONE).length;
-        const percentage = (completedTasks! / totalTasks!) * 100;
+        // get percentage and round it off to whole number
+        const percentage = Math.round((completedTasks! / totalTasks!) * 100);
         
         if (isNaN(percentage)) {
             return 0;
