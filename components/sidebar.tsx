@@ -50,7 +50,8 @@ export const Sidebar = () => {
         </Link>
         <div className="space-y-1">
           {routes.map((route) => (
-            <button
+            <Link
+              href={route.href}
               key={route.href} 
               onClick={navigateTo(route.href)}
               className={cn(
@@ -62,7 +63,7 @@ export const Sidebar = () => {
                 <route.icon className="h-5 w-5 mr-3" />
                 {route.label}
               </div>
-            </button>
+            </Link>
           ))}
         </div>
       </div>
