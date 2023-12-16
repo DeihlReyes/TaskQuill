@@ -11,10 +11,11 @@ export const ProjectTitle = async ({ projectId }: { projectId: string }) => {
     }
     
     return(
-        <div className="flex items-center">
+        <div className="flex flex-col items-start gap-4">
             <h1 className="text-xl md:text-3xl font-bold">
                 {projectTitle}
             </h1>
+            <p className="text-md md:text-lg w-1/2 text-foreground">{project?.description}</p>
         </div>
     )
 };

@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -50,12 +51,11 @@
   }
 }
 
-
 @layer base {
   * {
     @apply border-border;
   }
   body {
-    @apply dark:bg-[#1d1d1d] bg-[#f5f5f5] text-foreground;
+    @apply bg-background text-foreground;
   }
 }

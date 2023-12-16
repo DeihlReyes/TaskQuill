@@ -19,23 +19,23 @@ export const ProjectTiles = async () => {
   return (
     <div>
       {projects && projects.length > 0 ? (
-        <div className="grid gap-8 py-12 lg:grid-cols-3">
+        <div className="grid gap-8 py-12 md:grid-cols-3 xl:grid-cols-4">
           {projects.map((project: ProjectWithTask) => (
             <div key={project.id} className="cursor-pointer">
               <a href={`/projects/${project.id}`} className="block h-full">
                 <Card className="h-full transition-all ease-in-out">
                   <CardHeader>
-                    <CardTitle className="flex flex-row justify-between font-bold">
-                      <div className="text-xl ">{project.title}</div> 
-                      <Badge className="text-lg">{project.projectTag}</Badge>
+                    <CardTitle className="flex flex-row justify-between font-bold text-base md:text-xl">
+                      <div className="line-clamp-1">{project.title}</div> 
+                      <Badge>{project.projectTag}</Badge>
                     </CardTitle>
-                    <CardDescription>Date Started: {format(new Date(project.created), "MM-dd-yyyy")}</CardDescription>
+                    <CardDescription className="text-base md:text-xl">Date Started: {format(new Date(project.created), "MM-dd-yyyy")}</CardDescription>
                   </CardHeader>
                   <CardContent className="h-24">
-                    <p className="text-slate-600 overflow-hidden text-ellipsis line-clamp-3">{project.description}</p>
+                    <p className="text-foreground text-sm md:text-lg overflow-hidden text-ellipsis line-clamp-3">{project.description}</p>
                   </CardContent>
                   <CardFooter className="flex justify-center">
-                    <h1 className="text-center font-bold text-lg">Number of Tasks: {project.task.length}</h1>
+                    <h1 className="text-center font-bold text-sm md:text-lg">Number of Tasks: {project.task.length}</h1>
                   </CardFooter>
                 </Card>
               </a>

@@ -39,19 +39,19 @@ const Projects = async () => {
                 <CardTitle className="text-base tracking-wide font-bold">Recent Projects</CardTitle>
                 <CardDescription className="text-xs">List of your recent projects</CardDescription>
             </CardHeader>
-            <CardContent className="h-full pb-4">
+            <CardContent className="h-full py-4">
                 <div className="grid gap-4 grid-cols-1 lg:grid-cols-3 py-4 w-full justify-center items-center">
                     {firstTwoProjects.map((project: ProjectWithTask) => (
                         <a key={project.id} href={`/tasks/${project.id}`} className="h-full">
                             <Card className="w-full h-full shadow-sm border border-slate-300 dark:border-slate-600">
                                 <CardHeader className='pt-4'>
                                     <CardTitle className="flex flex-row justify-between">
-                                        <div className="text-base p-0">{project.title}</div> 
+                                        <div className="text-base p-0 line-clamp-1">{project.title}</div> 
                                         <Badge className="text-sm">{project.projectTag}</Badge>
                                     </CardTitle>
                                     <CardDescription></CardDescription>
                                 </CardHeader>
-                                <CardContent>
+                                <CardContent className="py-4">
                                     <div>
                                         <Progress value={taskPercentage(project.id)} />
                                         <div className="flex flex-row justify-end">{taskPercentage(project.id)}%</div>

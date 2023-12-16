@@ -9,11 +9,11 @@ export const ProjectToolbars = () => {
     const { onOpen } = useModal();
 
     return(
-        <div className="flex flex-row justify-between">
-            <h1 className="md:text-3xl font-bold">My Projects</h1>
+        <div className="flex flex-row justify-between items-center">
+            <h1 className="text-xl md:text-3xl font-bold">My Projects</h1>
             <Button onClick={() => onOpen("createProject")}>
-                <PlusIcon className="h-4 w-4" />
-                Add Project
+                <PlusIcon className="h-4 w-4 mr-2" />
+                Project
             </Button>
         </div>
     );

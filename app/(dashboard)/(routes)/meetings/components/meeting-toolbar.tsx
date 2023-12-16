@@ -10,10 +10,10 @@ export const MeetingToolbar = () => {
 
     return(
         <div className="flex flex-row justify-between">
-            <h1 className="md:text-3xl font-bold">My Meetings</h1>
+            <h1 className="text-xl md:text-3xl font-bold">My Meetings</h1>
             <Button onClick={() => onOpen("createMeeting")}>
-                <PlusIcon className="h-4 w-4" />
-                Add Meeting
+                <PlusIcon className="h-4 w-4 mr-2" />
+                Meeting
             </Button>
         </div>
     );

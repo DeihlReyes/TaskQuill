@@ -38,7 +38,7 @@ const Activities = () => {
                         <div className="flex flex-row justify-between py-4 px-2 border-b-2" key={activity.activity}>
                             <div>
                                 <h1 className="text-base font-semibold leading-loose">{activity.title}</h1>
-                                <p className="text-sm text-slate-600">{activity.date}</p>
+                                <p className="text-sm text-foreground">{activity.date}</p>
                             </div>
                         </div>
                     ))}

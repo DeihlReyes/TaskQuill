@@ -10,14 +10,14 @@ const MeetingCards = async () => {
         <div>
             {meetings.length === 0 ? (
                 <div className="flex flex-col items-center">
-                    <p className="text-sm text-slate-600">No meetings yet, create now.</p>
+                    <p className="text-sm text-foreground">No meetings yet, create now.</p>
                 </div>
             ) : (
                 meetings.map((meeting: Meeting) => (
                     <div className="flex flex-row justify-between py-4 px-2 border-b-2" key={meeting.title}>
                         <div>
                             <h1 className="text-base font-semibold leading-loose">{meeting.title}</h1>
-                            <p className="text-sm text-slate-600">{format(new Date(meeting.date), "MMMM dd, yyyy")}</p>
+                            <p className="text-sm text-foreground">{format(new Date(meeting.date), "MMMM dd, yyyy")}</p>
                         </div>
                         <a href={meeting.link} target="_blank">
                             <Button>

@@ -15,8 +15,8 @@ export const TaskToolbar = (
             <div className="flex flex-row justify-between">
                 {children}
                 <Button onClick={() => onOpen("createTask", {projectId})}>
-                    <PlusIcon className="h-4 w-4 mr-2 md:mr-4" />
-                    Add Task
+                    <PlusIcon className="h-4 w-4 mr-2" />
+                    Task
                 </Button>
             </div>
         </div>

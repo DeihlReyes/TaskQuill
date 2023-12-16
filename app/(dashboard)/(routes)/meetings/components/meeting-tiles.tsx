@@ -14,6 +14,8 @@ import { getMeetings } from "@/actions/get-meetings";
 import { Meeting } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { EnterIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
   
   
 export const MeetingTiles = async () => {
@@ -22,31 +24,34 @@ const meetings = await getMeetings();
 return (
     <div>
       {meetings && meetings.length > 0 ? (
-        <div className="grid gap-8 py-12 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
+        <div className="grid gap-8 py-12 md:grid-cols-3 xl:grid-cols-4">
           {meetings.map((meeting: Meeting) => (
             <div key={meeting.id} className="cursor-pointer">
-              <a href={`/tasks/${meeting.id}`} className="block h-full">
-                <Card className="h-full hover:scale-105 active:scale-100 transition-all ease-in-out">
+                <Card className="h-full">
                   <CardHeader>
-                    <CardTitle className="flex flex-row justify-between font-bold">
-                      <div className="text-xl ">{meeting.title}</div> 
+                    <CardTitle className="flex flex-row justify-between font-bold text-base md:text-xl">
+                      <div>{meeting.title}</div> 
                     </CardTitle>
                     <CardDescription>Date Started: {format(new Date(meeting.created), "MM-dd-yyyy")}</CardDescription>
                   </CardHeader>
-                  <CardContent className="h-24">
-                    <p className="text-slate-600 overflow-hidden text-ellipsis line-clamp-3">{meeting.description}</p>
+                  <CardContent className="h-24 pb-0">
+                    <p className="text-foreground text-sm md:text-lg overflow-hidden text-ellipsis line-clamp-3">{meeting.description}</p>
                   </CardContent>
-                  <CardFooter className="flex justify-center">
-                    
+                  <CardFooter className="flex justify-end items-end text-sm md:text-lg">
+                    <Link href={meeting.link} target="blank">
+                      <Button>
+                        <EnterIcon className="h-4 w-4 mr-2"/>
+                        Join
+                      </Button>
+                    </Link>
                   </CardFooter>
                 </Card>
-              </a>
             </div>
           ))}
         </div>
       ) : (
         <div className="w-full flex flex-col justify-center items-center">
-          <p className="text-center mt-8 text-gray-400">No projects yet, create now!</p>
+          <p className="text-center mt-8 text-gray-400">No scheduled meeting yet.</p>
         </div>
       )}
     </div>
