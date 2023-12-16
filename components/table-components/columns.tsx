@@ -9,7 +9,6 @@ import { Task } from "@/components/table-components/data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { cn } from "@/lib/utils"
-import AssigneeCard from "../assignee-card"
 
 export const columns: ColumnDef<Task>[] = [
   {
@@ -139,20 +138,6 @@ export const columns: ColumnDef<Task>[] = [
           </div>
         );
       }
-    },
-  },
-  {
-    accessorKey: "assigneeId",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Assignee" />
-    ),
-    cell: ({ row }) => {
-      const userId = row.getValue("assigneeId")
-      return (
-        <div className="p-0">
-          <AssigneeCard userId={userId as string} />
-        </div>
-      )
     },
   },
   {

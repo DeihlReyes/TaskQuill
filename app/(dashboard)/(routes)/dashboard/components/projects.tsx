@@ -42,9 +42,8 @@ const Projects = async () => {
             <CardContent className="h-full pb-4">
                 <div className="grid gap-4 grid-cols-1 lg:grid-cols-3 py-4 w-full justify-center items-center">
                     {firstTwoProjects.map((project: ProjectWithTask) => (
-                        <div key={project.id} className="cursor-pointer">
-                            <a href={`/tasks/${project.id}`} className="block h-full">
-                            <Card className="w-full shadow-sm border border-slate-300 dark:border-slate-600">
+                        <a key={project.id} href={`/tasks/${project.id}`} className="h-full">
+                            <Card className="w-full h-full shadow-sm border border-slate-300 dark:border-slate-600">
                                 <CardHeader className='pt-4'>
                                     <CardTitle className="flex flex-row justify-between">
                                         <div className="text-base p-0">{project.title}</div> 
@@ -52,23 +51,19 @@ const Projects = async () => {
                                     </CardTitle>
                                     <CardDescription></CardDescription>
                                 </CardHeader>
-                                <CardContent className="">
+                                <CardContent>
                                     <div>
                                         <Progress value={taskPercentage(project.id)} />
                                         <div className="flex flex-row justify-end">{taskPercentage(project.id)}%</div>
                                     </div>
-                                    <div className="pt-2">
-                                        <UserAvatar/>
-                                    </div>
                                 </CardContent>
-                                <CardFooter className="pb-4">
+                                <CardFooter className="text-sm pb-4">
                                     Date Started: <span className="font-bold">{format(new Date(project.created), "MM-dd-yyyy")}</span>
                                 </CardFooter>
                             </Card>
-                            </a>
-                        </div>
+                        </a>
                     ))}
-                    <a href={'/projects'} className="block h-full">
+                    <a href={'/projects'} className="h-full">
                         <Card className="w-full shadow-sm border border-slate-300 dark:border-slate-600">
                             <CardHeader className="flex flex-col justify-center items-center pt-4">
                                 <CardTitle className="flex flex-row justify-between text-base font-bold">
@@ -76,8 +71,8 @@ const Projects = async () => {
                                 </CardTitle>
                                 <CardDescription className="text-sm">Create more projects now!</CardDescription>
                             </CardHeader>
-                            <CardContent className="flex flex-row justify-center items-center pb-9">
-                                <FolderPlus className="h-20 w-20 text-primary" /> 
+                            <CardContent className="flex flex-row justify-center items-center">
+                                <FolderPlus className="h-16 w-16 text-primary" /> 
                             </CardContent>
                         </Card>
                     </a>

@@ -22,7 +22,7 @@ export const ProjectTiles = async () => {
         <div className="grid gap-8 py-12 lg:grid-cols-3">
           {projects.map((project: ProjectWithTask) => (
             <div key={project.id} className="cursor-pointer">
-              <a href={`/tasks/${project.id}`} className="block h-full">
+              <a href={`/projects/${project.id}`} className="block h-full">
                 <Card className="h-full transition-all ease-in-out">
                   <CardHeader>
                     <CardTitle className="flex flex-row justify-between font-bold">

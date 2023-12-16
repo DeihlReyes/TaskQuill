@@ -13,7 +13,6 @@ const Dashboard = async () => {
       </div>
       <UserTasks />
     </div>
-
   );
 };
 

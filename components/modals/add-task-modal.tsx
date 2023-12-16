@@ -46,7 +46,6 @@ const formSchema = z.object({
   priority: z.string().min(1),
   label: z.string().min(1),
   projectId: z.string().min(1),
-  assigneeId: z.string().min(1),
   dueDate: z.date({
     required_error: "A due date is required.",
   }),
@@ -72,7 +71,6 @@ export const AddTaskModal = () => {
       priority: Priority.LOW,
       label: Label.BUG,
       projectId: projectId || "",
-      assigneeId: "",
       dueDate: new Date(),
     },
   });
@@ -250,36 +248,6 @@ export const AddTaskModal = () => {
                   )}
                 />
               </div>
-              <FormField
-                  control={form.control}
-                  name="assigneeId"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col w-full">
-                      <FormLabel className="font-semibold">Assignee</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue className="py-4" placeholder="Select an Assignee" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {users?.map((user: User) => (
-                            <SelectItem key={user.id} value={user.id} className="p-2">
-                              <div className="flex flex-row justify-center items-center gap-4">
-                                <Avatar className="w-8 h-8">
-                                  <AvatarImage src={user.imageUrl || ""} alt={user.name} />
-                                  <AvatarFallback>{user.name}</AvatarFallback>
-                                </Avatar>
-                                <h1>{user.name}</h1>
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
             </div>
             <DialogFooter>
               <Button type="submit" disabled={isLoading}>
