@@ -51,7 +51,6 @@ export async function POST(req: Request) {
                 status: TaskStatus.TODO,
                 priority: prioritValue,
                 dueDate,
-                assigneeId: assigneeId,
                 projectId: projectId,
                 label: labelValue,
             },

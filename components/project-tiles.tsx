@@ -10,7 +10,6 @@ import { Badge } from "./ui/badge";
 import { ProjectWithTask } from "@/types";
 import { format } from "date-fns";
 import { getProject } from "@/actions/get-project";
-import { Button } from "react-day-picker";
 
 
 export const ProjectTiles = async () => {
@@ -19,7 +18,7 @@ export const ProjectTiles = async () => {
   return (
     <div>
       {projects && projects.length > 0 ? (
-        <div className="grid gap-8 py-12 md:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-8 py-12 md:grid-cols-3">
           {projects.map((project: ProjectWithTask) => (
             <div key={project.id} className="cursor-pointer">
               <a href={`/projects/${project.id}`} className="block h-full">
