@@ -1,4 +1,3 @@
-import { getProject } from "@/actions/get-project";
 import {
     Card,
     CardContent,
@@ -10,21 +9,18 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ProjectWithTask } from "@/types";
 import { format } from "date-fns";
-import { FolderPlus, PlusCircle } from "lucide-react";
+import { FolderPlus } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-import { TaskStatus, User } from "@prisma/client";
-import UserAvatar from "./user-avatars";
+import { Project, Task, TaskStatus } from "@prisma/client";
 
 
-const Projects = async () => {
-    const projects = await getProject();
+const Projects = async ({ projects }: { projects: (Project & { task: Task[] })[] }) => {
     const firstTwoProjects = projects.slice(0, 2);
 
     const taskPercentage = (projectId: string) => {
         const project = projects.find((project) => project.id === projectId);
         const totalTasks = project?.task.length;
         const completedTasks = project?.task.filter((task) => task.status === TaskStatus.DONE).length;
-        // get percentage and round it off to whole number
         const percentage = Math.round((completedTasks! / totalTasks!) * 100);
         
         if (isNaN(percentage)) {
