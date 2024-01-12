@@ -112,7 +112,7 @@ export const AddTaskModal = () => {
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="p-8">
         <DialogHeader>
-          <DialogTitle className="font-bold text-xl">Add Task</DialogTitle>
+          <DialogTitle className="text-xl font-bold">Add Task</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -128,7 +128,7 @@ export const AddTaskModal = () => {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className="border-0 bg-[#0d0d0d]/10 dark:bg-[#fefefe]/10 focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="border-0 bg-[#0d0d0d]/10 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-[#fefefe]/10"
                         placeholder="Enter Task Title"
                         {...field}
                       />
@@ -148,7 +148,7 @@ export const AddTaskModal = () => {
                     <FormControl>
                       <Textarea
                         disabled={isLoading}
-                        className="border-0 bg-[#0d0d0d]/10 dark:bg-[#fefefe]/10 focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="border-0 bg-[#0d0d0d]/10 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-[#fefefe]/10"
                         placeholder="Enter Task Description"
                         {...field}
                       />
@@ -158,54 +158,55 @@ export const AddTaskModal = () => {
                 )}
               />
               <FormField
-                  control={form.control}
-                  name="dueDate"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col w-full">
-                      <FormLabel>Due Date</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value ? (
-                                format(field.value, "PPP")
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={(date) =>
-                              date < yesterday
-                            }
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                control={form.control}
+                name="dueDate"
+                render={({ field }) => (
+                  <FormItem className="flex w-full flex-col">
+                    <FormLabel>Due Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground",
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) => date < yesterday}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <div className="flex flex-row gap-8">
                 {/* Priority Select */}
                 <FormField
                   control={form.control}
                   name="priority"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col w-1/2">
+                    <FormItem className="flex w-1/2 flex-col">
                       <FormLabel className="font-semibold">Priority</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Priority" />
@@ -213,7 +214,9 @@ export const AddTaskModal = () => {
                         </FormControl>
                         <SelectContent>
                           <SelectItem value={Priority.LOW}>Low</SelectItem>
-                          <SelectItem value={Priority.MEDIUM}>Medium</SelectItem>
+                          <SelectItem value={Priority.MEDIUM}>
+                            Medium
+                          </SelectItem>
                           <SelectItem value={Priority.HIGH}>High</SelectItem>
                         </SelectContent>
                       </Select>
@@ -226,9 +229,12 @@ export const AddTaskModal = () => {
                   control={form.control}
                   name="label"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col w-1/2">
+                    <FormItem className="flex w-1/2 flex-col">
                       <FormLabel className="font-semibold">Label</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select Label" />
@@ -237,10 +243,16 @@ export const AddTaskModal = () => {
                         <SelectContent>
                           <SelectItem value={Label.BUG}>Bug</SelectItem>
                           <SelectItem value={Label.FEATURE}>Feature</SelectItem>
-                          <SelectItem value={Label.IMPROVEMENT}>Improvement</SelectItem>
-                          <SelectItem value={Label.REFACTOR}>Refactor</SelectItem>
+                          <SelectItem value={Label.IMPROVEMENT}>
+                            Improvement
+                          </SelectItem>
+                          <SelectItem value={Label.REFACTOR}>
+                            Refactor
+                          </SelectItem>
                           <SelectItem value={Label.TEST}>Test</SelectItem>
-                          <SelectItem value={Label.DOCUMENTATION}>Documentation</SelectItem>
+                          <SelectItem value={Label.DOCUMENTATION}>
+                            Documentation
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />

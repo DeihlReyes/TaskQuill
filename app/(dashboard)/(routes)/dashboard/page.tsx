@@ -5,11 +5,11 @@ import UserTasks from "./components/user-tasks";
 
 const Dashboard = async () => {
   return (
-    <div className="flex flex-col w-full p-4 gap-4">
+    <div className="flex w-full flex-col gap-4 p-4">
       <TaskStatusCards />
-      <div className="w-full flex flex-col lg:flex-row gap-4">
+      <div className="flex w-full flex-col gap-4 lg:flex-row">
         <Projects />
-        <MeetingSidebar/>
+        <MeetingSidebar />
       </div>
       <UserTasks />
     </div>

@@ -4,9 +4,7 @@ import { getTasks } from "@/actions/get-task";
 import { Task } from "@prisma/client";
 import { profile } from "@/lib/profile";
 
-const TaskTable = async (
-  { projectId }: { projectId?: string }
-) => {
+const TaskTable = async ({ projectId }: { projectId?: string }) => {
   const currentProfile = await profile();
   let tasks: Task[] = [];
 
@@ -15,9 +13,7 @@ const TaskTable = async (
   } else {
     tasks = await getTasks({ projectId });
   }
-  return (
-      <DataTable data={tasks} columns={columns} />
-  );
+  return <DataTable data={tasks} columns={columns} />;
 };
 
 export default TaskTable;

@@ -3,38 +3,38 @@ import {
   ChevronRightIcon,
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
-} from "@radix-ui/react-icons"
-import { Table } from "@tanstack/react-table"
+} from "@radix-ui/react-icons";
+import { Table } from "@tanstack/react-table";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 interface DataTablePaginationProps<TData> {
-  table: Table<TData>
+  table: Table<TData>;
 }
 
 export function DataTablePagination<TData>({
   table,
 }: DataTablePaginationProps<TData>) {
   return (
-    <div className="flex flex-col items-center space-y-4 md:flex-row md:items-center md:justify-between px-2">
+    <div className="flex flex-col items-center space-y-4 px-2 md:flex-row md:items-center md:justify-between">
       <div className="text-sm text-muted-foreground">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
       </div>
-      <div className="flex flex-col md:flex-row gap-4 md:gap-0 items-center space-y-2 md:space-y-0 md:space-x-6 lg:space-x-8">
+      <div className="flex flex-col items-center gap-4 space-y-2 md:flex-row md:gap-0 md:space-x-6 md:space-y-0 lg:space-x-8">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Rows per page</p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
-              table.setPageSize(Number(value))
+              table.setPageSize(Number(value));
             }}
           >
             <SelectTrigger className="h-8 w-[70px]">
@@ -93,5 +93,5 @@ export function DataTablePagination<TData>({
         </div>
       </div>
     </div>
-  )
+  );
 }

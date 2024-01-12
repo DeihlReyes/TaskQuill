@@ -23,7 +23,7 @@ export const ModalProvider = () => {
       <DeleteModal />
       <AddProjectModal />
       <AddTaskModal />
-      <AddMeetingModal/>
+      <AddMeetingModal />
     </>
   );
 };

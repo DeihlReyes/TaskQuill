@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { DotsHorizontalIcon } from "@radix-ui/react-icons"
-import { Row } from "@tanstack/react-table"
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { Row } from "@tanstack/react-table";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,39 +16,45 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
-import { labels, statuses } from "@/components/table-components/data/data"
-import { taskSchema } from "@/components/table-components/data/schema"
+import { labels, statuses } from "@/components/table-components/data/data";
+import { taskSchema } from "@/components/table-components/data/schema";
 import { useModal } from "@/hooks/use-modal";
-import axios from "axios"
-import { useRouter } from "next/navigation"
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface DataTableRowActionsProps<TData> {
-  row: Row<TData>
+  row: Row<TData>;
 }
 
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const task = taskSchema.parse(row.original)
+  const task = taskSchema.parse(row.original);
   const { onOpen } = useModal();
   const router = useRouter();
 
   const updateStatus = async (newStatus: string) => {
     try {
-      const response = await axios.patch(`/api/task/update-task/status/${task.id}`, {
-        status: newStatus,  // Include the new status in the request body
-      });
+      const response = await axios.patch(
+        `/api/task/update-task/status/${task.id}`,
+        {
+          status: newStatus, // Include the new status in the request body
+        },
+      );
     } catch (error) {
       console.error("Error deleting task:", error);
     }
   };
   const updateLabel = async (newLabel: string) => {
     try {
-      const response = await axios.patch(`/api/task/update-task/label/${task.id}`, {
-        label: newLabel,  // Include the new status in the request body
-      });
+      const response = await axios.patch(
+        `/api/task/update-task/label/${task.id}`,
+        {
+          label: newLabel, // Include the new status in the request body
+        },
+      );
     } catch (error) {
       console.error("Error deleting task:", error);
     }
@@ -70,13 +76,13 @@ export function DataTableRowActions<TData>({
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup 
+            <DropdownMenuRadioGroup
               value={task.label}
               onValueChange={async (newLabel: string) => {
-                await updateLabel(newLabel)
-                router.refresh()
-              }}  
-              >
+                await updateLabel(newLabel);
+                router.refresh();
+              }}
+            >
               {labels.map((label) => (
                 <DropdownMenuRadioItem key={label.value} value={label.value}>
                   {label.label}
@@ -89,27 +95,29 @@ export function DataTableRowActions<TData>({
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-          <DropdownMenuRadioGroup
-            value={task.status}
-            onValueChange={async (newStatus: string) => {
-              await updateStatus(newStatus)
-              router.refresh()
-            }}           
-          >
-            {statuses.map((status) => (
-              <DropdownMenuRadioItem key={status.label} value={status.label}>
-                {status.value}
-              </DropdownMenuRadioItem>
-            ))}
-          </DropdownMenuRadioGroup>
+            <DropdownMenuRadioGroup
+              value={task.status}
+              onValueChange={async (newStatus: string) => {
+                await updateStatus(newStatus);
+                router.refresh();
+              }}
+            >
+              {statuses.map((status) => (
+                <DropdownMenuRadioItem key={status.label} value={status.label}>
+                  {status.value}
+                </DropdownMenuRadioItem>
+              ))}
+            </DropdownMenuRadioGroup>
           </DropdownMenuSubContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => onOpen("deleteTask", {taskId: task.id})}>
+        <DropdownMenuItem
+          onClick={() => onOpen("deleteTask", { taskId: task.id })}
+        >
           Delete
           <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

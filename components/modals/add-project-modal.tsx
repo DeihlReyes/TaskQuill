@@ -1,5 +1,20 @@
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -29,12 +44,14 @@ export const AddProjectModal = () => {
       title: "",
       description: "",
       projectTag: "",
-    }
+    },
   });
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (values) => {
+  const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (
+    values,
+  ) => {
     try {
       const res = await axios.post("/api/project", values);
       if (res.status === 200) {
@@ -50,13 +67,13 @@ export const AddProjectModal = () => {
   const handleClose = () => {
     form.reset();
     onClose();
-  }
+  };
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="p-8">
         <DialogHeader>
-          <DialogTitle className="font-bold text-xl">Add Project</DialogTitle>
+          <DialogTitle className="text-xl font-bold">Add Project</DialogTitle>
           <DialogDescription>Add your project here.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -67,11 +84,13 @@ export const AddProjectModal = () => {
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-md font-semibold">Project Title</FormLabel>
+                    <FormLabel className="text-md font-semibold">
+                      Project Title
+                    </FormLabel>
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className="border-0 bg-[#0d0d0d]/10 dark:bg-[#fefefe]/10 focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="border-0 bg-[#0d0d0d]/10 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-[#fefefe]/10"
                         placeholder="Enter Project Title"
                         {...field}
                       />
@@ -85,12 +104,14 @@ export const AddProjectModal = () => {
                 name="projectTag"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-md font-semibold">Project Tag</FormLabel>
+                    <FormLabel className="text-md font-semibold">
+                      Project Tag
+                    </FormLabel>
                     <FormControl>
                       <Input
                         maxLength={4}
                         disabled={isLoading}
-                        className="border-0 bg-[#0d0d0d]/10 dark:bg-[#fefefe]/10 focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="border-0 bg-[#0d0d0d]/10 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-[#fefefe]/10"
                         placeholder="Enter Project Title"
                         {...field}
                       />
@@ -104,12 +125,14 @@ export const AddProjectModal = () => {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-md font-semibold">Project Description</FormLabel>
+                    <FormLabel className="text-md font-semibold">
+                      Project Description
+                    </FormLabel>
                     <FormControl>
                       <Textarea
                         disabled={isLoading}
                         maxLength={200}
-                        className="h-[110px] border-0 bg-[#0d0d0d]/10 dark:bg-[#fefefe]/10 focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="h-[110px] border-0 bg-[#0d0d0d]/10 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-[#fefefe]/10"
                         placeholder="Enter Project Description"
                         {...field}
                       />

@@ -1,35 +1,35 @@
-import { Cross2Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons"
-import { Table } from "@tanstack/react-table"
+import { Cross2Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { Table } from "@tanstack/react-table";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { DataTableViewOptions } from "@/components/table-components/data-table-view-options"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { DataTableViewOptions } from "@/components/table-components/data-table-view-options";
 
-import { priorities, statuses } from "@/components/table-components/data/data"
-import { DataTableFacetedFilter } from "./data-table-faceted-filter"
+import { priorities, statuses } from "@/components/table-components/data/data";
+import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 
 interface DataTableToolbarProps<TData> {
-  table: Table<TData>
+  table: Table<TData>;
 }
 
 export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
-  const isFiltered = table.getState().columnFilters.length > 0
+  const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-4">
+    <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-x-4 md:space-y-0">
       <div className="flex flex-1 items-center space-x-2">
-        <div className="relative flex flex-row justify-end items-center">
+        <div className="relative flex flex-row items-center justify-end">
           <Input
             placeholder="Filter tasks..."
             value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
               table.getColumn("title")?.setFilterValue(event.target.value)
             }
-            className="h-8 w-full md:w-[250px] pr-8"
+            className="h-8 w-full pr-8 md:w-[250px]"
           />
-          <MagnifyingGlassIcon className="h-4 w-4 mr-2 absolute" />
+          <MagnifyingGlassIcon className="absolute mr-2 h-4 w-4" />
         </div>
         {table.getColumn("status") && (
           <DataTableFacetedFilter
@@ -58,5 +58,5 @@ export function DataTableToolbar<TData>({
       </div>
       <DataTableViewOptions table={table} />
     </div>
-  )
+  );
 }

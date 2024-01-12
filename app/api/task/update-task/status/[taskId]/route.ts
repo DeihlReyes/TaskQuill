@@ -5,14 +5,14 @@ import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 
 export async function PATCH(
-    req: Request,
-    { params }: { params: { taskId: string } }
+  req: Request,
+  { params }: { params: { taskId: string } },
 ) {
   try {
     const currentProfile = await profile();
 
     if (!currentProfile) {
-      return redirect('/sign-in');
+      return redirect("/sign-in");
     }
     const taskId = params.taskId;
     const { status } = await req.json();

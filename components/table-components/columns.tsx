@@ -1,14 +1,18 @@
-"use client"
+"use client";
 
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef } from "@tanstack/react-table";
 
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-import { labels, priorities, statuses } from "@/components/table-components/data/data"
-import { Task } from "@/components/table-components/data/schema"
-import { DataTableColumnHeader } from "./data-table-column-header"
-import { DataTableRowActions } from "./data-table-row-actions"
-import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  labels,
+  priorities,
+  statuses,
+} from "@/components/table-components/data/data";
+import { Task } from "@/components/table-components/data/schema";
+import { DataTableColumnHeader } from "./data-table-column-header";
+import { DataTableRowActions } from "./data-table-row-actions";
+import { cn } from "@/lib/utils";
 
 export const columns: ColumnDef<Task>[] = [
   {
@@ -47,7 +51,7 @@ export const columns: ColumnDef<Task>[] = [
       <DataTableColumnHeader column={column} title="Title" />
     ),
     cell: ({ row }) => {
-      const label = labels.find((label) => label.label === row.original.label)
+      const label = labels.find((label) => label.label === row.original.label);
 
       return (
         <div className="flex space-x-2">
@@ -56,7 +60,7 @@ export const columns: ColumnDef<Task>[] = [
             {row.getValue("title")}
           </span>
         </div>
-      )
+      );
     },
   },
   {
@@ -66,24 +70,26 @@ export const columns: ColumnDef<Task>[] = [
     ),
     cell: ({ row }) => {
       const status = statuses.find(
-        (status) => status.label === row.getValue("status")
-      )
+        (status) => status.label === row.getValue("status"),
+      );
 
       if (!status) {
-        return null
+        return null;
       }
 
       return (
         <div className="flex w-full items-center">
           {status.icon && (
-            <status.icon className={cn("mr-2 h-4 w-4 text-muted-foreground", status.color)} />
+            <status.icon
+              className={cn("mr-2 h-4 w-4 text-muted-foreground", status.color)}
+            />
           )}
           <span>{status.value}</span>
         </div>
-      )
+      );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
     },
   },
   {
@@ -93,11 +99,11 @@ export const columns: ColumnDef<Task>[] = [
     ),
     cell: ({ row }) => {
       const priority = priorities.find(
-        (priority) => priority.label === row.getValue("priority")
-      )
+        (priority) => priority.label === row.getValue("priority"),
+      );
 
       if (!priority) {
-        return null
+        return null;
       }
 
       return (
@@ -107,10 +113,10 @@ export const columns: ColumnDef<Task>[] = [
           )}
           <span>{priority.value}</span>
         </div>
-      )
+      );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
     },
   },
   {
@@ -120,23 +126,17 @@ export const columns: ColumnDef<Task>[] = [
     ),
     cell: ({ row }) => {
       const value = row.getValue("dueDate")!.toString();
-      
+
       // Check if value is not null or undefined
       if (value) {
         const date = new Date(value);
-        const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-        
-        return (
-          <div className="w-[70px]">
-            {formattedDate}
-          </div>
-        );
+        const formattedDate = `${
+          date.getMonth() + 1
+        }/${date.getDate()}/${date.getFullYear()}`;
+
+        return <div className="w-[70px]">{formattedDate}</div>;
       } else {
-        return (
-          <div className="w-[70px]">
-            N/A
-          </div>
-        );
+        return <div className="w-[70px]">N/A</div>;
       }
     },
   },
@@ -144,4 +144,4 @@ export const columns: ColumnDef<Task>[] = [
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },
-]
+];

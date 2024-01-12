@@ -9,17 +9,16 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
 import axios from "axios";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-
 
 export const DeleteModal = () => {
   const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
 
-  const taskId = data?.taskId
+  const taskId = data?.taskId;
 
   const isModalOpen = isOpen && type === "deleteTask";
 
@@ -27,7 +26,7 @@ export const DeleteModal = () => {
     try {
       const response = await axios.delete(`/api/task/${taskId}`);
       if (response.status === 200) {
-        router.refresh()
+        router.refresh();
         onClose();
       }
     } catch (error) {
@@ -38,19 +37,21 @@ export const DeleteModal = () => {
   const handleClose = () => {
     onClose();
   };
-  
+
   return (
     <AlertDialog open={isModalOpen} onOpenChange={onClose}>
       <AlertDialogContent>
         <AlertDialogHeader>
-            <AlertDialogTitle>Delete Task</AlertDialogTitle>
+          <AlertDialogTitle>Delete Task</AlertDialogTitle>
         </AlertDialogHeader>
         <div>
-            <p>Are you sure you want to delete this task?</p>
+          <p>Are you sure you want to delete this task?</p>
         </div>
         <AlertDialogFooter>
-            <Button onClick={handleClose} variant={'outline'}>Cancel</Button>
-            <Button onClick={deleteTask}>Delete</Button>
+          <Button onClick={handleClose} variant={"outline"}>
+            Cancel
+          </Button>
+          <Button onClick={deleteTask}>Delete</Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
