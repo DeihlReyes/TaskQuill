@@ -24,7 +24,7 @@ export const MeetingTiles = async () => {
   return (
       <div>
         {meetings && meetings.length > 0 ? (
-          <div className="grid gap-8 py-12 md:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-8 py-12 md:grid-cols-3">
             {meetings.map((meeting: Meeting) => (
               <div key={meeting.id} className="cursor-pointer">
                   <Card className="h-full">

@@ -3,7 +3,7 @@ import { MeetingToolbar } from "./components/meeting-toolbar";
 import { MeetingTiles } from "./components/meeting-tiles";
 
 
-const Projects = () => {
+const Meetings = () => {
     return (
         <div className="md:p-8 p-6 flex flex-col justify-center">
             <MeetingToolbar />
@@ -12,5 +12,5 @@ const Projects = () => {
     ); 
 }
 
-export default Projects;
+export default Meetings;
   
