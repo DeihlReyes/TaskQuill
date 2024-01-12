@@ -6,22 +6,24 @@ import { Plus } from "lucide-react";
 
 const MeetingCards = async () => {
   const meetings = await getMeetings();
+  const firstTwoMeetings = meetings.slice(0, 2);
+
   return (
     <div>
-      {meetings.length === 0 ? (
+      {firstTwoMeetings.length === 0 ? (
         <div className="flex flex-col items-center">
           <p className="text-sm text-foreground">
             No meetings yet, create now.
           </p>
         </div>
       ) : (
-        meetings.map((meeting: Meeting) => (
+        firstTwoMeetings.map((meeting: Meeting) => (
           <div
             className="flex flex-row justify-between border-b-2 px-2 py-4"
             key={meeting.title}
           >
             <div>
-              <h1 className="text-base font-semibold leading-loose">
+              <h1 className="line-clamp-1 text-base font-semibold leading-loose">
                 {meeting.title}
               </h1>
               <p className="text-sm text-foreground">
