@@ -13,7 +13,6 @@ import { format } from "date-fns";
 import { FolderPlus, PlusCircle } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { TaskStatus, User } from "@prisma/client";
-import UserAvatar from "./user-avatars";
 
 
 const Projects = async () => {
