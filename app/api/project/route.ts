@@ -1,9 +1,7 @@
 import { prismaDB } from "@/lib/prismaDb";
 import { profile } from "@/lib/profile";
 import {
-  createProjectSchema,
-  deleteProjectSchema,
-  updateProjectSchema,
+  projectSchema,
 } from "@/lib/validation/project";
 import { NextResponse } from "next/server";
 
@@ -17,7 +15,7 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const parseResult = createProjectSchema.safeParse(body);
+    const parseResult = projectSchema.safeParse(body);
 
     if (!parseResult.success) {
       console.error(parseResult.error);

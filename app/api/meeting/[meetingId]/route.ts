@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: { meetingId: string } },
 ) {
   try {
     const currentProfile = await profile();
@@ -26,7 +26,7 @@ export async function PUT(
     const { title, description, date, link } = parseResult.data;
 
     const meeting = await prismaDB.meeting.findUnique({
-      where: { id: params.id },
+      where: { id: params.meetingId },
     });
 
     if (!meeting) {
@@ -37,7 +37,7 @@ export async function PUT(
     }
 
     const res = await prismaDB.meeting.update({
-      where: { id: params.id },
+      where: { id: params.meetingId },
       data: {
         title,
         description,
@@ -61,7 +61,7 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: { meetingId: string } },
 ) {
   try {
     const currentProfile = await profile();
@@ -71,7 +71,7 @@ export async function DELETE(
     }
 
     const meeting = await prismaDB.meeting.findUnique({
-      where: { id: params.id },
+      where: { id: params.meetingId },
     });
 
     if (!meeting) {
@@ -81,7 +81,7 @@ export async function DELETE(
       );
     }
 
-    const res = await prismaDB.meeting.delete({ where: { id: params.id } });
+    const res = await prismaDB.meeting.delete({ where: { id: params.meetingId } });
 
     return new NextResponse(
       JSON.stringify({ message: "Meeting Deleted Successfully", data: res }),

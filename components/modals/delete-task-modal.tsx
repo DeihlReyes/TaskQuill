@@ -3,8 +3,6 @@
 import { useModal } from "@/hooks/use-modal";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
@@ -14,7 +12,7 @@ import axios from "axios";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 
-export const DeleteModal = () => {
+export const DeleteTaskModal = () => {
   const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
 

@@ -1,4 +1,3 @@
-import { Label, Priority } from "@prisma/client";
 import { z } from "zod";
 
 export const taskSchema = z.object({
@@ -7,7 +6,7 @@ export const taskSchema = z.object({
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]),
   label: z.enum(["BUG", "FEATURE", "IMPROVEMENT", "REFACTOR", "TEST", "DOCUMENTATION"]),
   projectId: z.string().min(1),
-  dueDate: z.date({
+  dueDate: z.coerce.date({
     required_error: "A due date is required.",
   }),
 });

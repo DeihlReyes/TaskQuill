@@ -4,8 +4,10 @@ import { create } from "zustand";
 export type ModalType =
   | "createProject"
   | "createTask"
+  | "createMeeting"
   | "deleteTask"
-  | "createMeeting";
+  | "deleteProject"
+  | "deleteMeeting";
 
 interface ModalData {
   project?: Project;
@@ -14,6 +16,7 @@ interface ModalData {
   query?: Record<string, any>;
   projectId?: string;
   taskId?: string;
+  meetingId?: string;
 }
 
 interface ModalStore {

@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: { taskId: string } },
 ) {
   try {
     const currentProfile = await profile();
@@ -25,9 +25,9 @@ export async function PUT(
 
     const { title, description, status, priority, label, projectId, dueDate } = parseResult.data;
 
-    const project = await prismaDB.project.findUnique({ where: { id: params.id } });
+    const task = await prismaDB.task.findUnique({ where: { id: params.taskId } });
 
-    if (!project) {
+    if (!task) {
       return new NextResponse(
         JSON.stringify({ message: "Project Not Found" }),
         { status: 404 },
@@ -35,7 +35,7 @@ export async function PUT(
     }
 
     const res = await prismaDB.task.update({
-      where: { id: params.id },
+      where: { id: params.taskId },
       data: {
         title,
         description,
@@ -61,7 +61,7 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: { taskId: string } },
 ) {
   try {
     const currentProfile = await profile();
@@ -69,17 +69,18 @@ export async function DELETE(
     if (!currentProfile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
+    console.log("Task ID:", params.taskId);
 
-    const project = await prismaDB.project.findUnique({ where: { id: params.id } });
+    const task = await prismaDB.task.findUnique({ where: { id: params.taskId } });
 
-    if (!project) {
+    if (!task) {
       return new NextResponse(
         JSON.stringify({ message: "Project Not Found" }),
         { status: 404 },
       );
     }
 
-    const res = await prismaDB.project.delete({ where: { id: params.id } });
+    const res = await prismaDB.task.delete({ where: { id: params.taskId } });
 
     return new NextResponse(
       JSON.stringify({ message: "Task Deleted Successfully", data: res }),

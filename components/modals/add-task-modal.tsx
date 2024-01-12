@@ -39,17 +39,8 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useQuery } from "@tanstack/react-query";
+import { TaskSchema, taskSchema } from "@/lib/validation/task";
 
-const formSchema = z.object({
-  title: z.string().min(1),
-  description: z.string().min(1),
-  priority: z.string().min(1),
-  label: z.string().min(1),
-  projectId: z.string().min(1),
-  dueDate: z.date({
-    required_error: "A due date is required.",
-  }),
-});
 
 export const AddTaskModal = () => {
   const { isOpen, onClose, type, data } = useModal();
@@ -59,7 +50,7 @@ export const AddTaskModal = () => {
   const isModalOpen = isOpen && type === "createTask";
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(taskSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -80,7 +71,7 @@ export const AddTaskModal = () => {
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  async function onSubmit(values: TaskSchema) {
     try {
       const res = await axios.post("/api/task", values);
       if (res.status === 200) {

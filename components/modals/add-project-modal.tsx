@@ -9,7 +9,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,18 +18,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useModal } from "@/hooks/use-modal";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-
-const formSchema = z.object({
-  title: z.string().min(1).max(200),
-  description: z.string().min(1),
-  projectTag: z.string().min(4).max(4).toUpperCase(),
-});
+import { ProjectSchema, projectSchema } from "@/lib/validation/project";
 
 export const AddProjectModal = () => {
   const { isOpen, onClose, type } = useModal();
@@ -39,7 +31,7 @@ export const AddProjectModal = () => {
   const isModalOpen = isOpen && type === "createProject";
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(projectSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -49,9 +41,7 @@ export const AddProjectModal = () => {
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (
-    values,
-  ) => {
+  async function onSubmit(values: ProjectSchema) {
     try {
       const res = await axios.post("/api/project", values);
       if (res.status === 200) {
@@ -62,7 +52,7 @@ export const AddProjectModal = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
   const handleClose = () => {
     form.reset();

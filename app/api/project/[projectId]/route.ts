@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: { projectId: string } },
 ) {
   try {
     const currentProfile = await profile();
@@ -26,7 +26,7 @@ export async function PUT(
     const { title, description, projectTag } = parseResult.data;
 
     const project = await prismaDB.project.findUnique({
-      where: { id: params.id },
+      where: { id: params.projectId },
     });
 
     if (!project) {
@@ -37,7 +37,7 @@ export async function PUT(
     }
 
     const res = await prismaDB.project.update({
-      where: { id: params.id },
+      where: { id: params.projectId },
       data: {
         title,
         description,
@@ -60,7 +60,7 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: { projectId: string } },
 ) {
   try {
     const currentProfile = await profile();
@@ -70,7 +70,7 @@ export async function DELETE(
     }
 
     const project = await prismaDB.project.findUnique({
-      where: { id: params.id },
+      where: { id: params.projectId },
     });
 
     if (!project) {
@@ -80,7 +80,7 @@ export async function DELETE(
       );
     }
 
-    const res = await prismaDB.project.delete({ where: { id: params.id } });
+    const res = await prismaDB.project.delete({ where: { id: params.projectId } });
 
     return new NextResponse(
       JSON.stringify({ message: "Meeting Project Successfully", data: res }),

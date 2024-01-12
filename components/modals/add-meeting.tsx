@@ -26,7 +26,7 @@ import { Calendar } from "../ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { CreateMeetingSchema, createMeetingSchema } from "@/lib/validation/meeting";
+import { MeetingSchema, meetingSchema } from "@/lib/validation/meeting";
 
 
 export const AddMeetingModal = () => {
@@ -36,7 +36,7 @@ export const AddMeetingModal = () => {
   const isModalOpen = isOpen && type === "createMeeting";
 
   const form = useForm({
-    resolver: zodResolver(createMeetingSchema),
+    resolver: zodResolver(meetingSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -47,7 +47,7 @@ export const AddMeetingModal = () => {
 
   const isLoading = form.formState.isSubmitting;
 
-  async function onSubmit(values: CreateMeetingSchema) {
+  async function onSubmit(values: MeetingSchema) {
     try {
       const res = await axios.post("/api/meeting", values);
       if (res.status === 200) {
