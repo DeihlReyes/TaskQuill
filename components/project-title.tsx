@@ -11,7 +11,7 @@ export const ProjectTitle = async ({ projectId }: { projectId: string }) => {
     }
     
     return(
-        <div className="flex flex-col items-start gap-4">
+        <div className="flex flex-col items-start gap-4 w-full">
             <h1 className="text-xl md:text-3xl font-bold">
                 {projectTitle}
             </h1>
