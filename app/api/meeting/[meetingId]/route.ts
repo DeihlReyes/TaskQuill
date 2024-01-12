@@ -1,6 +1,6 @@
 import { prismaDB } from "@/lib/prismaDb";
 import { profile } from "@/lib/profile";
-import { taskSchema, updateTaskSchema } from "@/lib/validation/task";
+import { meetingSchema } from "@/lib/validation/meeting";
 import { NextResponse } from "next/server";
 
 export async function PUT(
@@ -16,39 +16,39 @@ export async function PUT(
 
     const body = await req.json();
 
-    const parseResult = updateTaskSchema.safeParse(body);
+    const parseResult = meetingSchema.safeParse(body);
 
     if (!parseResult.success) {
       console.error(parseResult.error);
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { title, description, status, priority, label, projectId, dueDate } = parseResult.data;
+    const { title, description, date, link } = parseResult.data;
 
-    const project = await prismaDB.project.findUnique({ where: { id: params.id } });
+    const meeting = await prismaDB.meeting.findUnique({
+      where: { id: params.id },
+    });
 
-    if (!project) {
+    if (!meeting) {
       return new NextResponse(
-        JSON.stringify({ message: "Project Not Found" }),
+        JSON.stringify({ message: "Meeting Not Found" }),
         { status: 404 },
       );
     }
 
-    const res = await prismaDB.task.update({
+    const res = await prismaDB.meeting.update({
       where: { id: params.id },
       data: {
         title,
         description,
-        status,
-        priority,
-        dueDate,
-        projectId,
-        label,
+        date,
+        link,
+        userId: currentProfile.id,
       },
     });
 
     return new NextResponse(
-      JSON.stringify({ message: "Task Updated Successfully", data: res }),
+      JSON.stringify({ message: "Meeting Updated Successfully", data: res }),
       { status: 200 },
     );
   } catch (error) {
@@ -70,19 +70,21 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const project = await prismaDB.project.findUnique({ where: { id: params.id } });
+    const meeting = await prismaDB.meeting.findUnique({
+      where: { id: params.id },
+    });
 
-    if (!project) {
+    if (!meeting) {
       return new NextResponse(
-        JSON.stringify({ message: "Project Not Found" }),
+        JSON.stringify({ message: "Meeting Not Found" }),
         { status: 404 },
       );
     }
 
-    const res = await prismaDB.project.delete({ where: { id: params.id } });
+    const res = await prismaDB.meeting.delete({ where: { id: params.id } });
 
     return new NextResponse(
-      JSON.stringify({ message: "Task Deleted Successfully", data: res }),
+      JSON.stringify({ message: "Meeting Deleted Successfully", data: res }),
       { status: 200 },
     );
   } catch (error) {

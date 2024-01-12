@@ -1,29 +1,95 @@
 import { prismaDB } from "@/lib/prismaDb";
 import { profile } from "@/lib/profile";
-import { redirect } from "next/navigation";
+import { projectSchema } from "@/lib/validation/project";
 import { NextResponse } from "next/server";
 
-export async function DELETE(
+export async function PUT(
   req: Request,
-  { params }: { params: { projectId: string } },
+  { params }: { params: { id: string } },
 ) {
   try {
     const currentProfile = await profile();
 
     if (!currentProfile) {
-      return redirect("/sign-in");
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const projectId = params.projectId;
+    const body = await req.json();
 
-    const deletedTask = await prismaDB.project.delete({
-      where: {
-        id: projectId,
+    const parseResult = projectSchema.safeParse(body);
+
+    if (!parseResult.success) {
+      console.error(parseResult.error);
+      return Response.json({ error: "Invalid input" }, { status: 400 });
+    }
+
+    const { title, description, projectTag } = parseResult.data;
+
+    const project = await prismaDB.project.findUnique({
+      where: { id: params.id },
+    });
+
+    if (!project) {
+      return new NextResponse(
+        JSON.stringify({ message: "Project Not Found" }),
+        { status: 404 },
+      );
+    }
+
+    const res = await prismaDB.project.update({
+      where: { id: params.id },
+      data: {
+        title,
+        description,
+        projectTag,
+        ownerId: currentProfile.id,
       },
     });
 
-    return NextResponse.json({ deletedTask });
+    return new NextResponse(
+      JSON.stringify({ message: "Project Updated Successfully", data: res }),
+      { status: 200 },
+    );
   } catch (error) {
-    return new NextResponse("Internal Error", { status: 500 });
+    return new NextResponse(
+      JSON.stringify({ message: "Internal Server Error", error }),
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: { id: string } },
+) {
+  try {
+    const currentProfile = await profile();
+
+    if (!currentProfile) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const project = await prismaDB.project.findUnique({
+      where: { id: params.id },
+    });
+
+    if (!project) {
+      return new NextResponse(
+        JSON.stringify({ message: "Project Not Found" }),
+        { status: 404 },
+      );
+    }
+
+    const res = await prismaDB.project.delete({ where: { id: params.id } });
+
+    return new NextResponse(
+      JSON.stringify({ message: "Meeting Project Successfully", data: res }),
+      { status: 200 },
+    );
+  } catch (error) {
+    return new NextResponse(
+      JSON.stringify({ message: "Internal Server Error", error }),
+      { status: 500 },
+    );
   }
 }

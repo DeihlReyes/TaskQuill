@@ -9,7 +9,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,11 +16,9 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useModal } from "@/hooks/use-modal";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -29,15 +26,8 @@ import { Calendar } from "../ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import { CreateMeetingSchema, createMeetingSchema } from "@/lib/validation/meeting";
 
-const formSchema = z.object({
-  title: z.string().min(1).max(200),
-  description: z.string().min(1),
-  link: z.string().min(1),
-  date: z.date({
-    required_error: "A due date is required.",
-  }),
-});
 
 export const AddMeetingModal = () => {
   const { isOpen, onClose, type } = useModal();
@@ -46,7 +36,7 @@ export const AddMeetingModal = () => {
   const isModalOpen = isOpen && type === "createMeeting";
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(createMeetingSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -57,9 +47,7 @@ export const AddMeetingModal = () => {
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (
-    values,
-  ) => {
+  async function onSubmit(values: CreateMeetingSchema) {
     try {
       const res = await axios.post("/api/meeting", values);
       if (res.status === 200) {

@@ -58,11 +58,6 @@ export const AddTaskModal = () => {
 
   const isModalOpen = isOpen && type === "createTask";
 
-  const { data: users } = useQuery(["users"], async () => {
-    const res = await axios.get("/api/users");
-    return res.data;
-  });
-
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
