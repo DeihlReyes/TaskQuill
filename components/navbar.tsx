@@ -12,6 +12,7 @@ const Navbar = () => {
         <div className="flex flex-row items-center justify-center gap-5">
           <ModeToggle />
           <UserButton
+            afterSignOutUrl="/"
             appearance={{
               elements: {
                 userButtonAvatarBox: "w-10 h-10",
