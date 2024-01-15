@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ProjectWithTask } from "@/types";
+import { ProjectWithTask } from "@/lib/types";
 import { format } from "date-fns";
 import { FolderPlus } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
