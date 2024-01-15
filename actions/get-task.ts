@@ -1,12 +1,9 @@
 import { prismaDB } from "@/lib/prismaDb";
-import { profile } from "@/lib/profile";
-import { Task, User } from "@prisma/client";
+import { Task } from "@/lib/validation/task";
 
 export const getTasks = async (
-    { projectId, taskId, userId }: { projectId?: string, taskId?: string, userId?: string } = {}
+    { projectId, taskId }: { projectId?: string, taskId?: string, userId?: string } = {}
 ) => {
-    const currentProfile = await profile();
-
     const whereClause: {
         projectId?: string;
         taskId?: string;
@@ -22,12 +19,12 @@ export const getTasks = async (
         whereClause.taskId = taskId;
     }
 
-    const tasks: Task[] = await prismaDB.task.findMany({
+    const tasks = await prismaDB.task.findMany({
         where: whereClause,
         orderBy: {
             created: "asc",
         }
     });
 
-    return tasks;
+    return tasks as Task[];
 };

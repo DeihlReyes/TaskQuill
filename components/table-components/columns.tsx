@@ -9,12 +9,12 @@ import {
   priorities,
   statuses,
 } from "@/components/table-components/data/data";
-import { Task } from "@/lib/validation/task";
+import { TaskSchema } from "@/lib/validation/task";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
 import { cn } from "@/lib/utils";
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ColumnDef<TaskSchema>[] = [
   {
     id: "select",
     header: ({ table }) => (

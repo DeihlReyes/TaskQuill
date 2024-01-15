@@ -1,4 +1,4 @@
-import TaskTable from "@/components/task-table";
+import { getTasks } from "@/actions/get-task";
 import {
   Card,
   CardContent,
@@ -6,8 +6,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { columns } from "../table-components/columns";
+import { DataTable } from "../table-components/data-table";
+import { Task } from "@/lib/validation/task";
 
-const UserTasks = () => {
+const UserTasks = async () => {
+  const tasks = await getTasks() as Task[];
   return (
     <>
       <Card className="shadow-sm shadow-slate-400">
@@ -20,7 +24,7 @@ const UserTasks = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="w-full pb-4">
-          <TaskTable />
+          <DataTable data={tasks} columns={columns} />;
         </CardContent>
       </Card>
     </>
