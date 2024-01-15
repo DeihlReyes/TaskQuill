@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { labels, statuses } from "@/components/table-components/data/data";
-import { taskSchema } from "@/components/table-components/data/schema";
+import { taskSchemaTable } from "@/lib/validation/task";
 import { useModal } from "@/hooks/use-modal";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -31,7 +31,7 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const task = taskSchema.parse(row.original);
+  const task = taskSchemaTable.parse(row.original);
   const { onOpen } = useModal();
   const router = useRouter();
 

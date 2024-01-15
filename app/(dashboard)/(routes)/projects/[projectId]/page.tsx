@@ -3,7 +3,7 @@ import TaskTable from "@/components/task-table";
 
 const TaskPage = async ({ params }: { params: { projectId: string } }) => {
   return (
-    <div className="mx-auto flex flex-col justify-center p-4 md:p-8">
+    <div className="mx-auto flex flex-col justify-center p-6 md:p-8">
       <div>
         <ProjectTitle projectId={params.projectId} />
       </div>

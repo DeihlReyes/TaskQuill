@@ -12,7 +12,7 @@ const Navbar = async () => {
   });
   
   return (
-    <header className="px-4 pb-2 pt-6">
+    <header className="px-6 md:px-8 pb-2 pt-6">
       <nav className="flex flex-row items-center justify-between">
         <MobileSidebar />
         <div className="hidden md:block">

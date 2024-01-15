@@ -20,7 +20,7 @@ const Dashboard = async () => {
   ]);
 
   return (
-    <section className="flex w-full flex-col gap-4 p-4">
+    <section className="flex w-full flex-col gap-4 p-6 md:p-8">
       <TaskStatusCards task={tasks} />
       <div className="flex w-full flex-col gap-4 lg:flex-row">
         <Projects projects={projects} />
