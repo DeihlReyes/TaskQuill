@@ -1,14 +1,13 @@
-import { getTasks } from "@/actions/get-task";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TaskStatus } from "@prisma/client";
+import { Task, TaskStatus } from "@prisma/client";
 import { ListChecks, FileClock, List, XCircle } from "lucide-react";
 
-const TaskStatusCards = async () => {
-  const task = await getTasks();
 
+const TaskStatusCards = async ({ task }: {task: Task[]}) => {
   const taskCounts = (status: string) => {
-    return task.filter((task) => task.status === status).length;
+    return task.filter((task: Task) => task.status === status).length;
   };
+
 
   return (
     <div className="grid w-full grid-cols-2 gap-4 lg:grid-cols-4">

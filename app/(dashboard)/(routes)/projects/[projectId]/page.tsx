@@ -1,4 +1,4 @@
-import { ProjectTitle } from "@/components/project-title";
+import { ProjectTitle } from "@/components/project/project-title";
 import TaskTable from "@/components/task-table";
 
 const TaskPage = async ({ params }: { params: { projectId: string } }) => {

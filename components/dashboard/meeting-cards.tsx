@@ -4,8 +4,7 @@ import { Meeting } from "@prisma/client";
 import { format } from "date-fns";
 import { Plus } from "lucide-react";
 
-const MeetingCards = async () => {
-  const meetings = await getMeetings();
+const MeetingCards = async ({ meetings }: { meetings: Meeting[] }) => {
   const firstTwoMeetings = meetings.slice(0, 2);
 
   return (

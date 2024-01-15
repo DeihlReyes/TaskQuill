@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "./ui/badge";
+import { Badge } from "../ui/badge";
 import { ProjectWithTask } from "@/types";
 import { format } from "date-fns";
 import { getProject } from "@/actions/get-project";

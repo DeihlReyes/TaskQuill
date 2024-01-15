@@ -1,6 +1,5 @@
-import { ProjectTiles } from "@/components/project-tiles";
-import { MeetingToolbar } from "./components/meeting-toolbar";
-import { MeetingTiles } from "./components/meeting-tiles";
+import { MeetingToolbar } from "@/components/meeting/meeting-toolbar";
+import { MeetingTiles } from "@/components/meeting/meeting-tiles";
 
 const Meetings = () => {
   return (

@@ -1,5 +1,5 @@
-import { ProjectTiles } from "@/components/project-tiles";
-import { ProjectToolbars } from "@/components/project-toolbars";
+import { ProjectTiles } from "@/components/project/project-tiles";
+import { ProjectToolbars } from "@/components/project/project-toolbars";
 
 const Projects = () => {
   return (

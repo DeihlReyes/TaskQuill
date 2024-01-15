@@ -7,9 +7,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-const UserTasks = async () => {
+const UserTasks = () => {
   return (
-    <div>
+    <>
       <Card className="shadow-sm shadow-slate-400">
         <CardHeader>
           <CardTitle className="text-base font-bold tracking-wide">
@@ -23,7 +23,7 @@ const UserTasks = async () => {
           <TaskTable />
         </CardContent>
       </Card>
-    </div>
+    </>
   );
 };
 

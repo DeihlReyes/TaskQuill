@@ -6,14 +6,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ProjectWithTask } from "@/types";
 import { format } from "date-fns";
-import { getProject } from "@/actions/get-project";
 import { getMeetings } from "@/actions/get-meetings";
 import { Meeting } from "@prisma/client";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 import { EnterIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
@@ -32,8 +28,7 @@ export const MeetingTiles = async () => {
                     <div>{meeting.title}</div>
                   </CardTitle>
                   <CardDescription>
-                    Date Started:{" "}
-                    {format(new Date(meeting.created), "MM-dd-yyyy")}
+                    Date: {format(new Date(meeting.date), "MMMM dd, yyyy")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="h-24 pb-0">
