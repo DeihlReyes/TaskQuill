@@ -12,7 +12,7 @@ const TaskPage = async ({ params }: { params: { projectId: string } }) => {
         <ProjectTitle projectId={params.projectId} />
       </div>
       <div className="py-12">
-        <DataTable data={tasks} columns={columns} />;
+        <DataTable data={tasks} columns={columns} />
       </div>
     </div>
   );
