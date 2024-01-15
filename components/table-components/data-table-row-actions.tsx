@@ -37,10 +37,10 @@ export function DataTableRowActions<TData>({
 
   const updateStatus = async (newStatus: string) => {
     try {
-      const response = await axios.patch(
-        `/api/task/update-task/status/${task.id}`,
+      const response = await axios.put(
+        `/api/task/${task.id}`,
         {
-          status: newStatus, // Include the new status in the request body
+          status: newStatus,
         },
       );
     } catch (error) {
@@ -49,10 +49,10 @@ export function DataTableRowActions<TData>({
   };
   const updateLabel = async (newLabel: string) => {
     try {
-      const response = await axios.patch(
-        `/api/task/update-task/label/${task.id}`,
+      const response = await axios.put(
+        `/api/task/${task.id}`,
         {
-          label: newLabel, // Include the new status in the request body
+          label: newLabel,
         },
       );
     } catch (error) {

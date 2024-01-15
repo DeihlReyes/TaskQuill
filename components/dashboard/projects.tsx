@@ -48,7 +48,7 @@ const Projects = async ({projects} : {projects: ProjectWithTask[]}) => {
             {firstTwoProjects.map((project: ProjectWithTask) => (
               <a
                 key={project.id}
-                href={`/tasks/${project.id}`}
+                href={`/projects/${project.id}`}
                 className="h-full"
               >
                 <Card className="h-full w-full border border-slate-300 shadow-sm dark:border-slate-600">

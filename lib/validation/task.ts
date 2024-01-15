@@ -13,11 +13,10 @@ export const taskSchema = z.object({
 
 export type TaskSchema = z.infer<typeof taskSchema>;
 
-export const updateTaskSchema = taskSchema.extend({
+export const updateTaskSchema = z.object({
+  label: z.enum(["BUG", "FEATURE", "IMPROVEMENT", "REFACTOR", "TEST", "DOCUMENTATION"]),
   status: z.enum(["TODO", "IN_PROGRESS", "DONE", "CANCELLED"]),
 });
-
-
 
 export const taskSchemaTable = taskSchema.extend({
   id: z.string(),

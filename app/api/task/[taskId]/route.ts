@@ -16,14 +16,12 @@ export async function PUT(
 
     const body = await req.json();
 
-    const parseResult = updateTaskSchema.safeParse(body);
+    // const parseResult = updateTaskSchema.safeParse(body);
 
-    if (!parseResult.success) {
-      console.error(parseResult.error);
-      return Response.json({ error: "Invalid input" }, { status: 400 });
-    }
-
-    const { title, description, status, priority, label, projectId, dueDate } = parseResult.data;
+    // if (!parseResult.success) {
+    //   console.error(parseResult.error);
+    //   return Response.json({ error: "Invalid input" }, { status: 400 });
+    // }
 
     const task = await prismaDB.task.findUnique({ where: { id: params.taskId } });
 
@@ -36,15 +34,7 @@ export async function PUT(
 
     const res = await prismaDB.task.update({
       where: { id: params.taskId },
-      data: {
-        title,
-        description,
-        status,
-        priority,
-        dueDate,
-        projectId,
-        label,
-      },
+      data: body
     });
 
     return new NextResponse(
