@@ -26,7 +26,7 @@ const Dashboard = async () => {
         <Projects projects={projects} />
         <MeetingSidebar meetings={meetings} />
       </div>
-      <UserTasks />
+      <UserTasks tasks={tasks} />
     </section>
   );
 };

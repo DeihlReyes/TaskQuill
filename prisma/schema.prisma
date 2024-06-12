@@ -29,7 +29,7 @@ model Project {
   projectTag  String
   task        Task[]
   ownerId     String
-  members     User[]
+  User        User?      @relation(fields: [ownerId], references: [id])
   created     DateTime @default(now())
   updated     DateTime @updatedAt
 }

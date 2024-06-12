@@ -17,16 +17,16 @@ export const profile = async () => {
 
   if (userProfile) {
     return userProfile;
+  } else {
+    const newProfile = await prismaDB.user.create({
+      data: {
+        id: user.id,
+        email: user.emailAddresses[0].emailAddress,
+        name: `${user.firstName} ${user.lastName}`,
+        imageUrl: user.imageUrl,
+      },
+    });
+
+    return newProfile;
   }
-
-  const newProfile = await prismaDB.user.create({
-    data: {
-      id: user.id,
-      email: user.emailAddresses[0].emailAddress,
-      name: `${user.firstName} ${user.lastName}`,
-      imageUrl: user.imageUrl,
-    },
-  });
-
-  return newProfile;
 };

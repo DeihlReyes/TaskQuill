@@ -6,11 +6,7 @@ export const getMeetings = async () => {
 
     const meetings = await prismaDB.meeting.findMany({
         where: {
-            OR: [
-                {
-                    userId: currentProfile.id,
-                },
-            ],
+            userId: currentProfile.id,
         },
         orderBy: {
             created: "desc",

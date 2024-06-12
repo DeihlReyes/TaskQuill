@@ -75,13 +75,12 @@ export const AddTaskModal = () => {
     try {
       const res = await axios.post("/api/task", values);
       if (res.status === 200) {
-        console.log(res.data);
         form.reset();
         router.refresh();
         onClose();
       }
     } catch (error) {
-      console.log("Error creating task", error);
+      return error;
     }
   };
 

@@ -56,7 +56,7 @@ export const AddMeetingModal = () => {
         onClose();
       }
     } catch (error) {
-      console.log(error);
+      return error;
     }
   };
 

@@ -50,7 +50,7 @@ export const AddProjectModal = () => {
         onClose();
       }
     } catch (error) {
-      console.log(error);
+      return error;
     }
   }
 

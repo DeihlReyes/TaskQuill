@@ -59,7 +59,6 @@ export async function DELETE(
     if (!currentProfile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-    console.log("Task ID:", params.taskId);
 
     const task = await prismaDB.task.findUnique({ where: { id: params.taskId } });
 

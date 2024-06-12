@@ -10,8 +10,7 @@ import { columns } from "../table-components/columns";
 import { DataTable } from "../table-components/data-table";
 import { Task } from "@/lib/validation/task";
 
-const UserTasks = async () => {
-  const tasks = await getTasks() as Task[];
+const UserTasks = ({ tasks }: {tasks: Task[]}) => {
   return (
     <>
       <Card className="shadow-sm shadow-slate-400">
@@ -24,7 +23,7 @@ const UserTasks = async () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="w-full pb-4">
-          <DataTable data={tasks} columns={columns} />;
+          <DataTable data={tasks} columns={columns} />
         </CardContent>
       </Card>
     </>

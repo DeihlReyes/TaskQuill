@@ -2,11 +2,12 @@ import { prismaDB } from "@/lib/prismaDb";
 import { Task } from "@/lib/validation/task";
 
 export const getTasks = async (
-    { projectId, taskId }: { projectId?: string, taskId?: string, userId?: string } = {}
+    { projectId, taskId, userId }: { projectId?: string, taskId?: string, userId?: string } = {}
 ) => {
     const whereClause: {
         projectId?: string;
         taskId?: string;
+        userId?: string;
     } = {
         
     };
@@ -17,6 +18,10 @@ export const getTasks = async (
 
     if(taskId) {
         whereClause.taskId = taskId;
+    }
+
+    if(userId) { 
+        whereClause.userId = userId;
     }
 
     const tasks = await prismaDB.task.findMany({
