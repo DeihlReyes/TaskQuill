@@ -1,8 +1,6 @@
 import { prismaDB } from "@/lib/prismaDb";
 import { profile } from "@/lib/profile";
-import {
-  projectSchema,
-} from "@/lib/validation/project";
+import { projectSchema } from "@/lib/validation/project";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -37,6 +35,35 @@ export async function POST(req: Request) {
       JSON.stringify({ message: "Project Created Successfully", data: res }),
       { status: 200 },
     );
+  } catch (error) {
+    return new NextResponse(
+      JSON.stringify({ message: "Internal Server Error", error }),
+      { status: 500 },
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    const currentProfile = await profile();
+
+    if (!currentProfile) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const data = await prismaDB.project.findMany({
+      where: {
+        ownerId: currentProfile.id,
+      },
+      include: {
+        task: true,
+      },
+      orderBy: {
+        created: "desc",
+      },
+    });
+
+    return new NextResponse(JSON.stringify(data), { status: 200 });
   } catch (error) {
     return new NextResponse(
       JSON.stringify({ message: "Internal Server Error", error }),

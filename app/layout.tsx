@@ -4,7 +4,7 @@ import { Open_Sans } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ModalProvider } from "@/components/providers/modal-provider";
 import { ThemeProvider } from "@/components/providers/theme-providers";
-import { QueryProvider } from "@/components/providers/query-provider";
+import ReactQueryProvider from "./ReactQueryProvider";
 
 const font = Open_Sans({ subsets: ["latin"] });
 
@@ -28,10 +28,10 @@ export default function RootLayout({
             enableSystem={true}
             storageKey="theme"
           >
-            <QueryProvider>
+            <ReactQueryProvider>
               <ModalProvider />
               {children}
-            </QueryProvider>
+            </ReactQueryProvider>
           </ThemeProvider>
         </body>
       </html>

@@ -11,17 +11,26 @@ import { ProjectWithTask } from "@/lib/types";
 import { format } from "date-fns";
 import { FolderPlus } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-import { TaskStatus } from "@prisma/client";
+import { Project, Task, TaskStatus } from "@prisma/client";
 
+const Projects = async () => {
+  const fetchProjects = async () => {
+    const response = await fetch("/api/project");
+    if (!response.ok) {
+      throw new Error("Failed to fetch tasks");
+    }
+    return response.json();
+  };
 
-const Projects = async ({projects} : {projects: ProjectWithTask[]}) => {
-  const firstTwoProjects = projects.slice(0, 2);
+  const data = await fetchProjects();
+
+  const firstTwoProjects = data ? data.slice(0, 2) : [];
 
   const taskPercentage = (projectId: string) => {
-    const project = projects.find((project) => project.id === projectId);
+    const project = data.find((project: Project) => project.id === projectId);
     const totalTasks = project?.task.length;
     const completedTasks = project?.task.filter(
-      (task) => task.status === TaskStatus.DONE,
+      (task: Task) => task.status === TaskStatus.DONE,
     ).length;
 
     const percentage = Math.round((completedTasks! / totalTasks!) * 100);
@@ -45,9 +54,9 @@ const Projects = async ({projects} : {projects: ProjectWithTask[]}) => {
         </CardHeader>
         <CardContent className="h-full py-4">
           <div className="grid w-full grid-cols-1 items-center justify-center gap-4 py-4 lg:grid-cols-3">
-            {firstTwoProjects.map((project: ProjectWithTask) => (
+            {firstTwoProjects.map((project: ProjectWithTask, index: number) => (
               <a
-                key={project.id}
+                key={index}
                 href={`/projects/${project.id}`}
                 className="h-full"
               >

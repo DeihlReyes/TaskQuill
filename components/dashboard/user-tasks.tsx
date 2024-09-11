@@ -10,7 +10,7 @@ import { columns } from "../table-components/columns";
 import { DataTable } from "../table-components/data-table";
 import { Task } from "@/lib/validation/task";
 
-const UserTasks = ({ tasks }: {tasks: Task[]}) => {
+const UserTasks = ({ tasks }: { tasks: Task[] }) => {
   return (
     <>
       <Card className="shadow-sm shadow-slate-400">

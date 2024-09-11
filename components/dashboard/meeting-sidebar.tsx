@@ -7,9 +7,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import MeetingCards from "./meeting-cards";
-import { Meeting } from "@prisma/client";
+import { useQuery } from "@tanstack/react-query";
 
-export const MeetingSidebar = ({meetings}: {meetings: Meeting[]}) => {
+export const MeetingSidebar = async () => {
+  const fetchMeetings = async () => {
+    const response = await fetch("/api/meeting");
+    if (!response.ok) {
+      throw new Error("Failed to fetch tasks");
+    }
+    return response.json();
+  };
+
+  const data = await fetchMeetings();
+
   return (
     <>
       <Card className="w-full shadow-sm shadow-slate-400 lg:w-1/3">
@@ -25,7 +35,7 @@ export const MeetingSidebar = ({meetings}: {meetings: Meeting[]}) => {
           </div>
         </CardHeader>
         <CardContent className="flex flex-col gap-4 px-5 pb-8">
-          <MeetingCards meetings={meetings} />
+          <MeetingCards meetings={data} />
         </CardContent>
       </Card>
     </>

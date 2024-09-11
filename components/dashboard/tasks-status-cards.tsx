@@ -3,12 +3,14 @@ import { ListChecks, FileClock, List, XCircle } from "lucide-react";
 import { TaskStatus } from "@prisma/client";
 import { Task } from "@/lib/validation/task";
 
+const TaskStatusCards = async ({ task }: { task: Task[] }) => {
+  if (!task) {
+    return null;
+  }
 
-const TaskStatusCards = async ({ task }: {task: Task[]}) => {
   const taskCounts = (status: string) => {
     return task.filter((task: Task) => task.status === status).length;
   };
-
 
   return (
     <div className="grid w-full grid-cols-2 gap-4 lg:grid-cols-4">

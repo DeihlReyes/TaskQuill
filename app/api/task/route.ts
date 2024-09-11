@@ -1,6 +1,8 @@
+import { getTasks } from "@/actions/get-task";
 import { prismaDB } from "@/lib/prismaDb";
 import { profile } from "@/lib/profile";
-import { taskSchema } from "@/lib/validation/task";
+import { Task, taskSchema } from "@/lib/validation/task";
+import { auth } from "@clerk/nextjs/server";
 import { TaskStatus } from "@prisma/client";
 import { NextResponse } from "next/server";
 
@@ -21,7 +23,8 @@ export async function POST(req: Request) {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { title, description, priority, label, projectId, dueDate } = parseResult.data;
+    const { title, description, priority, label, projectId, dueDate } =
+      parseResult.data;
 
     const project = await prismaDB.project.findUnique({
       where: {
@@ -70,3 +73,29 @@ export async function POST(req: Request) {
   }
 }
 
+export async function GET() {
+  try {
+    const currentProfile = await profile();
+
+    if (!currentProfile) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const data = await prismaDB.task.findMany({
+      where: {
+        userId: currentProfile.id,
+      },
+      orderBy: {
+        created: "asc",
+      },
+    });
+
+    const tasks = data as Task[];
+    return new NextResponse(JSON.stringify(tasks), { status: 200 });
+  } catch (error) {
+    return new NextResponse(
+      JSON.stringify({ message: "Internal Server Error", error }),
+      { status: 500 },
+    );
+  }
+}

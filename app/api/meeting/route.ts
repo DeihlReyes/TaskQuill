@@ -43,3 +43,29 @@ export async function POST(req: Request) {
     );
   }
 }
+
+export async function GET() {
+  try {
+    const currentProfile = await profile();
+
+    if (!currentProfile) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const data = await prismaDB.meeting.findMany({
+      where: {
+        userId: currentProfile.id,
+      },
+      orderBy: {
+        created: "desc",
+      },
+    });
+
+    return new NextResponse(JSON.stringify(data), { status: 200 });
+  } catch (error) {
+    return new NextResponse(
+      JSON.stringify({ message: "Internal Server Error", error }),
+      { status: 500 },
+    );
+  }
+}

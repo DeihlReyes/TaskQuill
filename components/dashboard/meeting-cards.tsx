@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { Plus } from "lucide-react";
 
 const MeetingCards = async ({ meetings }: { meetings: Meeting[] }) => {
-  const firstTwoMeetings = meetings.slice(0, 2);
+  const firstTwoMeetings = meetings ? meetings.slice(0, 2) : [];
 
   return (
     <div>
@@ -16,10 +16,10 @@ const MeetingCards = async ({ meetings }: { meetings: Meeting[] }) => {
           </p>
         </div>
       ) : (
-        firstTwoMeetings.map((meeting: Meeting) => (
+        firstTwoMeetings.map((meeting: Meeting, index) => (
           <div
             className="flex flex-row justify-between border-b-2 px-2 py-4"
-            key={meeting.title}
+            key={index}
           >
             <div>
               <h1 className="line-clamp-1 text-base font-semibold leading-loose">

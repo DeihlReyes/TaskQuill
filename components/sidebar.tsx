@@ -53,10 +53,10 @@ export const Sidebar = () => {
           <h1 className="text-2xl font-bold">TaskQuill</h1>
         </Link>
         <div className="space-y-1">
-          {routes.map((route) => (
+          {routes.map((route, index) => (
             <Link
               href={route.href}
-              key={route.href}
+              key={index}
               onClick={navigateTo(route.href)}
               className={cn(
                 "group flex w-full cursor-pointer justify-start rounded-lg p-3 text-sm font-medium transition-colors duration-200 ease-in-out hover:bg-[#0d0d0d]/10 dark:hover:bg-[#fefefe]/10",

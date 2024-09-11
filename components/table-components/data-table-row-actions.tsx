@@ -19,10 +19,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { labels, statuses } from "@/components/table-components/data/data";
-import { taskSchemaTable } from "@/lib/validation/task";
+import { Task, taskSchemaTable } from "@/lib/validation/task";
 import { useModal } from "@/hooks/use-modal";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -33,32 +33,62 @@ export function DataTableRowActions<TData>({
 }: DataTableRowActionsProps<TData>) {
   const task = taskSchemaTable.parse(row.original);
   const { onOpen } = useModal();
-  const router = useRouter();
+  const queryClient = useQueryClient();
+  const queryKey: QueryKey = ["tasks"];
 
-  const updateStatus = async (newStatus: string) => {
-    try {
-      const response = await axios.put(
-        `/api/task/${task.id}`,
-        {
-          status: newStatus,
-        },
-      );
-    } catch (error) {
-      console.error("Error deleting task:", error);
+  const { mutateAsync } = useMutation({
+    mutationFn: async (task: Task) => {
+      const response = await axios.put(`/api/task/${task.id}`, task);
+      return response.data;
+    },
+    // Optimistically update the task in the cache before mutation completes
+    onMutate: async (newTask: Task) => {
+      await queryClient.cancelQueries({ queryKey });
+
+      const previousTasks = queryClient.getQueryData<Task[]>(queryKey) || [];
+
+      // Optimistic update
+      queryClient.setQueryData<Task[]>(queryKey, (oldTasks) => {
+        return oldTasks?.map((task) =>
+          task.id === newTask.id ? { ...task, ...newTask } : task,
+        );
+      });
+
+      return { previousTasks };
+    },
+    onError: (err, newTask, context) => {
+      // Rollback if there's an error
+      queryClient.setQueryData(queryKey, context?.previousTasks);
+    },
+  });
+
+  const handleLabelChange = async (newLabel: string) => {
+    const validLabels = [
+      "BUG",
+      "FEATURE",
+      "IMPROVEMENT",
+      "REFACTOR",
+      "TEST",
+      "DOCUMENTATION",
+    ] as const;
+    if (!validLabels.includes(newLabel as any)) {
+      throw new Error("Invalid label");
     }
+
+    const updatedTask: Task = { ...task, label: newLabel as Task["label"] };
+    await mutateAsync(updatedTask);
   };
-  const updateLabel = async (newLabel: string) => {
-    try {
-      const response = await axios.put(
-        `/api/task/${task.id}`,
-        {
-          label: newLabel,
-        },
-      );
-    } catch (error) {
-      console.error("Error deleting task:", error);
+
+  const handleStatusChange = async (newStatus: string) => {
+    const validStatuses = ["TODO", "IN_PROGRESS", "DONE", "CANCELLED"] as const;
+    if (!validStatuses.includes(newStatus as any)) {
+      throw new Error("Invalid status");
     }
+
+    const updatedTask: Task = { ...task, status: newStatus as Task["status"] };
+    await mutateAsync(updatedTask);
   };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -78,10 +108,7 @@ export function DataTableRowActions<TData>({
           <DropdownMenuSubContent>
             <DropdownMenuRadioGroup
               value={task.label}
-              onValueChange={async (newLabel: string) => {
-                await updateLabel(newLabel);
-                router.refresh();
-              }}
+              onValueChange={handleLabelChange}
             >
               {labels.map((label) => (
                 <DropdownMenuRadioItem key={label.value} value={label.value}>
@@ -97,10 +124,7 @@ export function DataTableRowActions<TData>({
           <DropdownMenuSubContent>
             <DropdownMenuRadioGroup
               value={task.status}
-              onValueChange={async (newStatus: string) => {
-                await updateStatus(newStatus);
-                router.refresh();
-              }}
+              onValueChange={handleStatusChange}
             >
               {statuses.map((status) => (
                 <DropdownMenuRadioItem key={status.label} value={status.label}>
