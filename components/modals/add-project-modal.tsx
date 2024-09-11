@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Dialog,
   DialogContent,
@@ -23,12 +25,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { ProjectSchema, projectSchema } from "@/lib/validation/project";
+import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
+import { LoaderIcon } from "lucide-react";
 
 export const AddProjectModal = () => {
   const { isOpen, onClose, type } = useModal();
-  const router = useRouter();
-
+  const queryKey: QueryKey = ["projects"];
   const isModalOpen = isOpen && type === "createProject";
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(projectSchema),
@@ -39,23 +44,42 @@ export const AddProjectModal = () => {
     },
   });
 
-  const isLoading = form.formState.isSubmitting;
-
-  async function onSubmit(values: ProjectSchema) {
-    try {
+  // useMutation to handle form submission
+  const { mutate: createProject, isPending } = useMutation({
+    mutationFn: async (values: ProjectSchema) => {
       const res = await axios.post("/api/project", values);
-      if (res.status === 200) {
-        form.reset();
-        router.refresh();
-        onClose();
-      }
-    } catch (error) {
-      return error;
-    }
-  }
+      return res.data;
+    },
+    onMutate: async (newProject: ProjectSchema) => {
+      await queryClient.cancelQueries({ queryKey });
+
+      const previousProjects =
+        queryClient.getQueryData<ProjectSchema[]>(queryKey) || [];
+
+      queryClient.setQueryData<ProjectSchema[]>(queryKey, (oldProjects) => {
+        if (!oldProjects) return [newProject];
+
+        return [...oldProjects, newProject];
+      });
+      return { previousProjects };
+    },
+    onError: (err, newProjects, context) => {
+      queryClient.setQueryData(queryKey, context?.previousProjects);
+    },
+    onSettled: () => {
+      form.reset();
+      onClose();
+      router.push("/projects");
+    },
+  });
+
+  // Submit handler
+  const onSubmit = (values: ProjectSchema) => {
+    createProject(values); // Use the mutation instead of axios directly
+  };
 
   const handleClose = () => {
-    form.reset();
+    form.reset(); // Reset the form on modal close
     onClose();
   };
 
@@ -79,7 +103,7 @@ export const AddProjectModal = () => {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isLoading}
+                        disabled={isPending}
                         className="border-0 bg-[#0d0d0d]/10 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-[#fefefe]/10"
                         placeholder="Enter Project Title"
                         {...field}
@@ -100,9 +124,9 @@ export const AddProjectModal = () => {
                     <FormControl>
                       <Input
                         maxLength={4}
-                        disabled={isLoading}
+                        disabled={isPending}
                         className="border-0 bg-[#0d0d0d]/10 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-[#fefefe]/10"
-                        placeholder="Enter Project Title"
+                        placeholder="Enter Project Tag"
                         {...field}
                       />
                     </FormControl>
@@ -120,7 +144,7 @@ export const AddProjectModal = () => {
                     </FormLabel>
                     <FormControl>
                       <Textarea
-                        disabled={isLoading}
+                        disabled={isPending}
                         maxLength={200}
                         className="h-[110px] border-0 bg-[#0d0d0d]/10 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-[#fefefe]/10"
                         placeholder="Enter Project Description"
@@ -133,7 +157,20 @@ export const AddProjectModal = () => {
               />
             </div>
             <DialogFooter>
-              <Button disabled={isLoading}>Create</Button>
+              <Button
+                className="flex items-center justify-center"
+                type="submit"
+                disabled={isPending}
+              >
+                {isPending ? (
+                  <>
+                    <LoaderIcon className="mr-2 animate-spin" size={20} />
+                    Creating
+                  </>
+                ) : (
+                  "Create"
+                )}
+              </Button>
             </DialogFooter>
           </form>
         </Form>

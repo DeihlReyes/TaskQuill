@@ -9,10 +9,12 @@ import {
 import { columns } from "../table-components/columns";
 import { DataTable } from "../table-components/data-table";
 import { Task } from "@/lib/validation/task";
+import TaskStatusCards from "./tasks-status-cards";
 
 const UserTasks = ({ tasks }: { tasks: Task[] }) => {
   return (
-    <>
+    <div className="space-y-5">
+      <TaskStatusCards task={tasks} />
       <Card className="shadow-sm shadow-slate-400">
         <CardHeader>
           <CardTitle className="text-base font-bold tracking-wide">
@@ -26,7 +28,7 @@ const UserTasks = ({ tasks }: { tasks: Task[] }) => {
           <DataTable data={tasks} columns={columns} />
         </CardContent>
       </Card>
-    </>
+    </div>
   );
 };
 

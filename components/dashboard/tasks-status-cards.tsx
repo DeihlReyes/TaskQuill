@@ -3,11 +3,7 @@ import { ListChecks, FileClock, List, XCircle } from "lucide-react";
 import { TaskStatus } from "@prisma/client";
 import { Task } from "@/lib/validation/task";
 
-const TaskStatusCards = async ({ task }: { task: Task[] }) => {
-  if (!task) {
-    return null;
-  }
-
+const TaskStatusCards = ({ task }: { task: Task[] }) => {
   const taskCounts = (status: string) => {
     return task.filter((task: Task) => task.status === status).length;
   };
@@ -21,7 +17,7 @@ const TaskStatusCards = async ({ task }: { task: Task[] }) => {
         </CardHeader>
         <CardContent className="pb-3">
           <div className="mb-1 text-3xl font-bold leading-none md:text-5xl">
-            {taskCounts(TaskStatus.TODO)}
+            {taskCounts(TaskStatus.TODO) || 0}
           </div>
           <p className="text-xs text-white md:text-sm">Newly added tasks</p>
         </CardContent>
@@ -35,7 +31,7 @@ const TaskStatusCards = async ({ task }: { task: Task[] }) => {
         </CardHeader>
         <CardContent className="pb-3">
           <div className="mb-1 text-3xl font-bold leading-none md:text-5xl">
-            {taskCounts(TaskStatus.IN_PROGRESS)}
+            {taskCounts(TaskStatus.IN_PROGRESS) || 0}
           </div>
           <p className="text-xs text-white md:text-sm">On going tasks</p>
         </CardContent>
@@ -49,7 +45,7 @@ const TaskStatusCards = async ({ task }: { task: Task[] }) => {
         </CardHeader>
         <CardContent className="pb-3">
           <div className="mb-1 text-3xl font-bold leading-none md:text-5xl">
-            {taskCounts(TaskStatus.DONE)}
+            {taskCounts(TaskStatus.DONE) || 0}
           </div>
           <p className="text-xs text-white md:text-sm">Accomplished tasks</p>
         </CardContent>
@@ -63,7 +59,7 @@ const TaskStatusCards = async ({ task }: { task: Task[] }) => {
         </CardHeader>
         <CardContent className="pb-3">
           <div className="mb-1 text-3xl font-bold leading-none md:text-5xl">
-            {taskCounts(TaskStatus.CANCELLED)}
+            {taskCounts(TaskStatus.CANCELLED) || 0}
           </div>
           <p className="text-xs text-white md:text-sm">Cancelled tasks</p>
         </CardContent>

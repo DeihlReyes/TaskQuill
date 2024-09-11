@@ -27,10 +27,13 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { MeetingSchema, meetingSchema } from "@/lib/validation/meeting";
-
+import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
+import { LoaderIcon } from "lucide-react";
 
 export const AddMeetingModal = () => {
   const { isOpen, onClose, type } = useModal();
+  const queryKey: QueryKey = ["meetings"]; // Adjust this based on your app's structure
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const isModalOpen = isOpen && type === "createMeeting";
@@ -45,23 +48,43 @@ export const AddMeetingModal = () => {
     },
   });
 
-  const isLoading = form.formState.isSubmitting;
-
-  async function onSubmit(values: MeetingSchema) {
-    try {
+  // useMutation to handle form submission
+  const { mutate: createMeeting, isPending } = useMutation({
+    mutationFn: async (values: MeetingSchema) => {
       const res = await axios.post("/api/meeting", values);
-      if (res.status === 200) {
-        form.reset();
-        router.refresh();
-        onClose();
-      }
-    } catch (error) {
-      return error;
-    }
+      return res.data;
+    },
+    onMutate: async (newMeeting: MeetingSchema) => {
+      await queryClient.cancelQueries({ queryKey });
+
+      const previousMeetings =
+        queryClient.getQueryData<MeetingSchema[]>(queryKey) || [];
+
+      queryClient.setQueryData<MeetingSchema[]>(queryKey, (oldMeetings) => {
+        if (!oldMeetings) return [newMeeting];
+
+        return [...oldMeetings, newMeeting];
+      });
+
+      return { previousMeetings };
+    },
+    onError: (err, newMeeting, context) => {
+      queryClient.setQueryData(queryKey, context?.previousMeetings);
+    },
+    onSettled: () => {
+      form.reset();
+      onClose();
+      router.push("/meetings");
+    },
+  });
+
+  // Submit handler
+  const onSubmit = (values: MeetingSchema) => {
+    createMeeting(values); // Use the mutation instead of axios directly
   };
 
   const handleClose = () => {
-    form.reset();
+    form.reset(); // Reset the form on modal close
     onClose();
   };
 
@@ -74,7 +97,9 @@ export const AddMeetingModal = () => {
       <DialogContent className="p-8">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">Add a Meeting</DialogTitle>
-          <DialogDescription>Add important meeting here.</DialogDescription>
+          <DialogDescription>
+            Add important meeting details here.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -89,7 +114,7 @@ export const AddMeetingModal = () => {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isLoading}
+                        disabled={isPending}
                         className="border-0 bg-[#0d0d0d]/10 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-[#fefefe]/10"
                         placeholder="Enter meeting title"
                         {...field}
@@ -109,7 +134,7 @@ export const AddMeetingModal = () => {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isLoading}
+                        disabled={isPending}
                         className="border-0 bg-[#0d0d0d]/10 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-[#fefefe]/10"
                         placeholder="Enter meeting description"
                         {...field}
@@ -129,9 +154,9 @@ export const AddMeetingModal = () => {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isLoading}
+                        disabled={isPending}
                         className="border-0 bg-[#0d0d0d]/10 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-[#fefefe]/10"
-                        placeholder="Enter Project Title"
+                        placeholder="Enter meeting link"
                         {...field}
                       />
                     </FormControl>
@@ -179,7 +204,20 @@ export const AddMeetingModal = () => {
               />
             </div>
             <DialogFooter>
-              <Button disabled={isLoading}>Create</Button>
+              <Button
+                className="flex items-center justify-center"
+                type="submit"
+                disabled={isPending}
+              >
+                {isPending ? (
+                  <>
+                    <LoaderIcon className="mr-2 animate-spin" size={20} />
+                    Creating
+                  </>
+                ) : (
+                  "Create"
+                )}
+              </Button>
             </DialogFooter>
           </form>
         </Form>

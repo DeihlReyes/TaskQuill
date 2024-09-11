@@ -1,8 +1,6 @@
-import { getTasks } from "@/actions/get-task";
 import { prismaDB } from "@/lib/prismaDb";
 import { profile } from "@/lib/profile";
 import { Task, taskSchema } from "@/lib/validation/task";
-import { auth } from "@clerk/nextjs/server";
 import { TaskStatus } from "@prisma/client";
 import { NextResponse } from "next/server";
 
@@ -58,6 +56,7 @@ export async function POST(req: Request) {
         dueDate,
         projectId: projectId,
         label,
+        userId: currentProfile.id,
       },
     });
 
