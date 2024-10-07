@@ -1,4 +1,5 @@
-import { Project, Task } from "@prisma/client";
+import { TaskSchema, TaskSchemaWithId } from "@/lib/validation/task";
+import { Project, Task, Meeting } from "@prisma/client";
 import { create } from "zustand";
 
 export type ModalType =
@@ -7,23 +8,25 @@ export type ModalType =
   | "createMeeting"
   | "deleteTask"
   | "deleteProject"
-  | "deleteMeeting";
+  | "deleteMeeting"
+  | "editTask"
+  | "editProject"
+  | "editMeeting";
 
 interface ModalData {
   project?: Project;
-  tasks?: Task;
+  task?: TaskSchemaWithId;
+  meeting?: Meeting;
   apiUrl?: string;
-  query?: Record<string, any>;
-  projectId?: string;
   taskId?: string;
-  meetingId?: string;
+  query?: Record<string, any>;
 }
 
 interface ModalStore {
   type: ModalType | null;
   data: ModalData;
   isOpen: boolean;
-  onOpen: (type: ModalType, data?: ModalData) => void; // Include projectId parameter here
+  onOpen: (type: ModalType, data?: ModalData) => void;
   onClose: () => void;
 }
 
@@ -32,5 +35,5 @@ export const useModal = create<ModalStore>((set) => ({
   data: {},
   isOpen: false,
   onOpen: (type, data = {}) => set({ isOpen: true, type, data }),
-  onClose: () => set({ type: null, isOpen: false }),
+  onClose: () => set({ type: null, isOpen: false, data: {} }),
 }));

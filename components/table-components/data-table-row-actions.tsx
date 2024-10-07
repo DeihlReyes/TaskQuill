@@ -2,7 +2,6 @@
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Row } from "@tanstack/react-table";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,12 +16,11 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import { labels, statuses } from "@/components/table-components/data/data";
 import { Task, taskSchemaTable } from "@/lib/validation/task";
 import { useModal } from "@/hooks/use-modal";
-import axios from "axios";
 import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -41,23 +39,17 @@ export function DataTableRowActions<TData>({
       const response = await axios.put(`/api/task/${task.id}`, task);
       return response.data;
     },
-    // Optimistically update the task in the cache before mutation completes
     onMutate: async (newTask: Task) => {
       await queryClient.cancelQueries({ queryKey });
-
       const previousTasks = queryClient.getQueryData<Task[]>(queryKey) || [];
-
-      // Optimistic update
       queryClient.setQueryData<Task[]>(queryKey, (oldTasks) => {
         return oldTasks?.map((task) =>
           task.id === newTask.id ? { ...task, ...newTask } : task,
         );
       });
-
       return { previousTasks };
     },
     onError: (err, newTask, context) => {
-      // Rollback if there's an error
       queryClient.setQueryData(queryKey, context?.previousTasks);
     },
   });
@@ -74,7 +66,6 @@ export function DataTableRowActions<TData>({
     if (!validLabels.includes(newLabel as any)) {
       throw new Error("Invalid label");
     }
-
     const updatedTask: Task = { ...task, label: newLabel as Task["label"] };
     await mutateAsync(updatedTask);
   };
@@ -84,7 +75,6 @@ export function DataTableRowActions<TData>({
     if (!validStatuses.includes(newStatus as any)) {
       throw new Error("Invalid status");
     }
-
     const updatedTask: Task = { ...task, status: newStatus as Task["status"] };
     await mutateAsync(updatedTask);
   };
@@ -101,7 +91,9 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => onOpen("editTask", { task })}>
+          Edit
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
@@ -136,7 +128,7 @@ export function DataTableRowActions<TData>({
         </DropdownMenuSub>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          onClick={() => onOpen("deleteTask", { taskId: task.id })}
+          onSelect={() => onOpen("deleteTask", { taskId: task.id })}
         >
           Delete
           <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>

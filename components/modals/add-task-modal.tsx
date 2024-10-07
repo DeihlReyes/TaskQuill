@@ -1,10 +1,25 @@
+"use client";
+
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { format } from "date-fns";
+import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CalendarIcon, LoaderIcon } from "lucide-react";
+import { Label, Priority } from "@prisma/client";
+
+import { useModal } from "@/hooks/use-modal";
+import { cn } from "@/lib/utils";
+import { TaskSchema, taskSchema } from "@/lib/validation/task";
+
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-  DialogDescription,
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -24,64 +39,62 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useModal } from "@/hooks/use-modal";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Label, Priority, User } from "@prisma/client";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { Calendar } from "../ui/calendar";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { useQuery } from "@tanstack/react-query";
-import { TaskSchema, taskSchema } from "@/lib/validation/task";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 
-
-export const AddTaskModal = () => {
+export const TaskModal = () => {
   const { isOpen, onClose, type, data } = useModal();
-  const { projectId } = data;
   const router = useRouter();
+  const queryClient = useQueryClient();
 
-  const isModalOpen = isOpen && type === "createTask";
+  const isModalOpen = isOpen && (type === "createTask" || type === "editTask");
+  const isEditing = type === "editTask";
 
-  const form = useForm({
+  const form = useForm<TaskSchema>({
     resolver: zodResolver(taskSchema),
     defaultValues: {
       title: "",
       description: "",
       priority: Priority.LOW,
       label: Label.BUG,
-      projectId: projectId || "",
+      projectId: "",
       dueDate: new Date(),
     },
   });
 
   useEffect(() => {
-    if (projectId) {
-      form.setValue("projectId", projectId);
-    } else {
-      form.setValue("projectId", "");
+    if (isEditing && data.task) {
+      form.reset({
+        ...data.task,
+        description: data.task.description ?? "",
+      });
+    } else if (data.project?.id) {
+      form.setValue("projectId", data.project.id);
     }
-  }, [projectId, form]);
+  }, [isEditing, data, form]);
 
-  const isLoading = form.formState.isSubmitting;
-
-  async function onSubmit(values: TaskSchema) {
-    try {
-      const res = await axios.post("/api/task", values);
-      if (res.status === 200) {
-        form.reset();
-        router.refresh();
-        onClose();
+  const mutation = useMutation({
+    mutationFn: async (values: TaskSchema) => {
+      if (isEditing && data.task) {
+        return axios.put(`/api/task/${data.task.id}`, values);
+      } else {
+        return axios.post("/api/task", values);
       }
-    } catch (error) {
-      return error;
-    }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      form.reset();
+      router.refresh();
+      onClose();
+    },
+  });
+
+  const onSubmit = (values: TaskSchema) => {
+    mutation.mutate(values);
   };
 
   const handleClose = () => {
@@ -97,7 +110,9 @@ export const AddTaskModal = () => {
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="p-8">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold">Add Task</DialogTitle>
+          <DialogTitle className="text-xl font-bold">
+            {isEditing ? "Edit Task" : "Add Task"}
+          </DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -112,7 +127,7 @@ export const AddTaskModal = () => {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isLoading}
+                        disabled={mutation.isPending}
                         className="border-0 bg-[#0d0d0d]/10 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-[#fefefe]/10"
                         placeholder="Enter Task Title"
                         {...field}
@@ -132,7 +147,7 @@ export const AddTaskModal = () => {
                     </FormLabel>
                     <FormControl>
                       <Textarea
-                        disabled={isLoading}
+                        disabled={mutation.isPending}
                         className="border-0 bg-[#0d0d0d]/10 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-[#fefefe]/10"
                         placeholder="Enter Task Description"
                         {...field}
@@ -181,7 +196,6 @@ export const AddTaskModal = () => {
                 )}
               />
               <div className="flex flex-row gap-8">
-                {/* Priority Select */}
                 <FormField
                   control={form.control}
                   name="priority"
@@ -209,7 +223,6 @@ export const AddTaskModal = () => {
                     </FormItem>
                   )}
                 />
-                {/* Label Select */}
                 <FormField
                   control={form.control}
                   name="label"
@@ -247,8 +260,11 @@ export const AddTaskModal = () => {
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit" disabled={isLoading}>
-                Create
+              <Button type="submit" disabled={mutation.isPending}>
+                {isEditing ? "Update" : "Create"}
+                {mutation.isPending ? (
+                  <LoaderIcon className="ml-2 animate-spin" size={20} />
+                ) : null}
               </Button>
             </DialogFooter>
           </form>
