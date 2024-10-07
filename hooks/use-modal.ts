@@ -17,6 +17,7 @@ interface ModalData {
   project?: Project;
   task?: TaskSchemaWithId;
   meeting?: Meeting;
+  projectId?: string;
   apiUrl?: string;
   taskId?: string;
   query?: Record<string, any>;
