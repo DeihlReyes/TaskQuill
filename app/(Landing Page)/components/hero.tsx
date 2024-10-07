@@ -59,7 +59,7 @@ export default function HeroSection({
           transition={{ duration: 0.5 }}
           className="space-y-10"
         >
-          <p className="mx-auto max-w-5xl text-center text-base text-gray-600 sm:text-lg md:text-xl">
+          <p className="mx-auto max-w-5xl text-center text-base text-muted-foreground sm:text-lg md:text-xl">
             Elevate Your Task Management with TaskQuill. Your essential hub for
             seamless organization, effortless task mastery, and heightened
             productivity. TaskQuill redefines task management, offering
