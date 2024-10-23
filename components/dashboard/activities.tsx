@@ -1,3 +1,5 @@
+import { BellRing } from "lucide-react";
+
 import {
   Card,
   CardContent,
@@ -6,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { BellRing } from "lucide-react";
 
 const activities = [
   {

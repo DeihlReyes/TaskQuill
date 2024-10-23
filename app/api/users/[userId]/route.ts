@@ -1,11 +1,12 @@
-import { prismaDB } from "@/lib/prismaDb";
-import { profile } from "@/lib/profile";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 
+import { prismaDB } from "@/lib/prismaDb";
+import { profile } from "@/lib/profile";
+
 export async function GET(
   req: Request,
-  { params }: { params: { userId: string } },
+  { params }: { params: { userId: string } }
 ) {
   try {
     const currentProfile = await profile();

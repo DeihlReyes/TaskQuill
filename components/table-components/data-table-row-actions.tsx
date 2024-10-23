@@ -1,7 +1,11 @@
 "use client";
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Row } from "@tanstack/react-table";
+import axios from "axios";
+
+import { labels, statuses } from "@/components/table-components/data/data";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,11 +20,8 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { labels, statuses } from "@/components/table-components/data/data";
-import { Task, taskSchemaTable } from "@/lib/validation/task";
 import { useModal } from "@/hooks/use-modal";
-import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { Task, taskSchemaTable } from "@/lib/validation/task";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -44,7 +45,7 @@ export function DataTableRowActions<TData>({
       const previousTasks = queryClient.getQueryData<Task[]>(queryKey) || [];
       queryClient.setQueryData<Task[]>(queryKey, (oldTasks) => {
         return oldTasks?.map((task) =>
-          task.id === newTask.id ? { ...task, ...newTask } : task,
+          task.id === newTask.id ? { ...task, ...newTask } : task
         );
       });
       return { previousTasks };

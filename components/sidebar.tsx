@@ -1,15 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+
 import {
   FolderKanban,
   LayoutDashboard,
-  ScrollText,
   Presentation,
+  ScrollText,
   Settings,
   Shapes,
 } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+
 import { cn } from "@/lib/utils";
 
 const routes = [
@@ -62,7 +64,7 @@ export const Sidebar = () => {
                 "group flex w-full cursor-pointer justify-start rounded-lg p-3 text-sm font-medium transition-colors duration-200 ease-in-out hover:bg-[#0d0d0d]/10 dark:hover:bg-[#fefefe]/10",
                 pathname === route.href
                   ? "bg-[#5b5b5b]/10 dark:bg-[#fefefe]/10"
-                  : "bg-[transparent]",
+                  : "bg-[transparent]"
               )}
             >
               <div className="flex flex-1 items-center">

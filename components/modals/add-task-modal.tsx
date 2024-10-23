@@ -1,25 +1,24 @@
 "use client";
 
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { format } from "date-fns";
-import axios from "axios";
-import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
-import { CalendarIcon, LoaderIcon } from "lucide-react";
+import { useEffect } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Label, Priority } from "@prisma/client";
+import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { format } from "date-fns";
+import { CalendarIcon, LoaderIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
 
-import { useModal } from "@/hooks/use-modal";
-import { cn } from "@/lib/utils";
-import { TaskSchema, taskSchema } from "@/lib/validation/task";
-
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -29,6 +28,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -36,15 +41,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
+import { useModal } from "@/hooks/use-modal";
+import { cn } from "@/lib/utils";
+import { TaskSchema, taskSchema } from "@/lib/validation/task";
 
 export const TaskModal = () => {
   const { isOpen, onClose, type, data } = useModal();
@@ -82,7 +82,7 @@ export const TaskModal = () => {
       if (isEditing && data.task) {
         return axios.put(`/api/task/${data.task.id}`, values);
       } else {
-        return axios.post(`/api/task`, values);
+        return axios.post("/api/task", values);
       }
     },
     onSuccess: () => {
@@ -175,7 +175,7 @@ export const TaskModal = () => {
                             variant={"outline"}
                             className={cn(
                               "pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground",
+                              !field.value && "text-muted-foreground"
                             )}
                           >
                             {field.value ? (

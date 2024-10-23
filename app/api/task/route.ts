@@ -1,8 +1,10 @@
+import { NextResponse } from "next/server";
+
+import { TaskStatus } from "@prisma/client";
+
 import { prismaDB } from "@/lib/prismaDb";
 import { profile } from "@/lib/profile";
 import { Task, taskSchema } from "@/lib/validation/task";
-import { TaskStatus } from "@prisma/client";
-import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
@@ -62,12 +64,12 @@ export async function POST(req: Request) {
 
     return new NextResponse(
       JSON.stringify({ message: "Task Created Successfully", data: res }),
-      { status: 200 },
+      { status: 200 }
     );
   } catch (error) {
     return new NextResponse(
       JSON.stringify({ message: "Internal Server Error", error }),
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
@@ -94,7 +96,7 @@ export async function GET() {
   } catch (error) {
     return new NextResponse(
       JSON.stringify({ message: "Internal Server Error", error }),
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

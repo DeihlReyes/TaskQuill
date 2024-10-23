@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
+
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { ProjectWithTask } from "@/lib/types";
+import { Search } from "lucide-react";
+
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Search } from "lucide-react";
+import { ProjectWithTask } from "@/lib/types";
+
 import { ProjectCard } from "./project-card";
 
 export const ProjectTiles = () => {
@@ -25,7 +28,7 @@ export const ProjectTiles = () => {
   });
 
   const filteredProjects = projects?.filter((project) =>
-    project.title.toLowerCase().includes(searchTerm.toLowerCase()),
+    project.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (isLoading) {

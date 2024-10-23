@@ -1,4 +1,6 @@
+import { useQuery } from "@tanstack/react-query";
 import { CalendarRange } from "lucide-react";
+
 import {
   Card,
   CardContent,
@@ -6,8 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
 import MeetingCards from "./meeting-cards";
-import { useQuery } from "@tanstack/react-query";
 
 export const MeetingSidebar = async () => {
   const fetchMeetings = async () => {

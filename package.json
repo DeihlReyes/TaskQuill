@@ -7,6 +7,7 @@
     "build": "next build && prisma generate",
     "start": "next start",
     "lint": "next lint",
+    "format": "prettier components/ --write",
     "postinstall": "prisma generate"
   },
   "dependencies": {
@@ -62,6 +63,8 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "prettier": "^3.3.3",
     "prisma": "^5.2.0"
   }
 }

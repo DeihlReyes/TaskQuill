@@ -1,6 +1,11 @@
 "use client";
 
-import { useModal } from "@/hooks/use-modal";
+import { useRouter } from "next/navigation";
+
+import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { LoaderIcon } from "lucide-react";
+
 import {
   AlertDialog,
   AlertDialogContent,
@@ -8,11 +13,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import axios from "axios";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
-import { LoaderIcon } from "lucide-react";
+import { useModal } from "@/hooks/use-modal";
 
 export const DeleteProjectModal = () => {
   const { isOpen, onClose, type, data } = useModal();

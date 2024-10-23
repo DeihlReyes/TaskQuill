@@ -1,7 +1,8 @@
+import { NextResponse } from "next/server";
+
 import { prismaDB } from "@/lib/prismaDb";
 import { profile } from "@/lib/profile";
 import { meetingSchema } from "@/lib/validation/meeting";
-import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
@@ -34,12 +35,12 @@ export async function POST(req: Request) {
 
     return new NextResponse(
       JSON.stringify({ message: "Meeting Created Successfully", data: res }),
-      { status: 200 },
+      { status: 200 }
     );
   } catch (error) {
     return new NextResponse(
       JSON.stringify({ message: "Internal Server Error", error }),
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
@@ -65,7 +66,7 @@ export async function GET() {
   } catch (error) {
     return new NextResponse(
       JSON.stringify({ message: "Internal Server Error", error }),
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

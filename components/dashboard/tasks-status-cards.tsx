@@ -1,6 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ListChecks, FileClock, List, XCircle } from "lucide-react";
 import { TaskStatus } from "@prisma/client";
+import { FileClock, List, ListChecks, XCircle } from "lucide-react";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Task } from "@/lib/validation/task";
 
 const TaskStatusCards = ({ task }: { task: Task[] }) => {

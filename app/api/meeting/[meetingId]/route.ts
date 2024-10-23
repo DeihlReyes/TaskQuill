@@ -1,11 +1,12 @@
+import { NextResponse } from "next/server";
+
 import { prismaDB } from "@/lib/prismaDb";
 import { profile } from "@/lib/profile";
 import { meetingSchema } from "@/lib/validation/meeting";
-import { NextResponse } from "next/server";
 
 export async function PUT(
   req: Request,
-  { params }: { params: { meetingId: string } },
+  { params }: { params: { meetingId: string } }
 ) {
   try {
     const currentProfile = await profile();
@@ -32,7 +33,7 @@ export async function PUT(
     if (!meeting) {
       return new NextResponse(
         JSON.stringify({ message: "Meeting Not Found" }),
-        { status: 404 },
+        { status: 404 }
       );
     }
 
@@ -49,19 +50,19 @@ export async function PUT(
 
     return new NextResponse(
       JSON.stringify({ message: "Meeting Updated Successfully", data: res }),
-      { status: 200 },
+      { status: 200 }
     );
   } catch (error) {
     return new NextResponse(
       JSON.stringify({ message: "Internal Server Error", error }),
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { meetingId: string } },
+  { params }: { params: { meetingId: string } }
 ) {
   try {
     const currentProfile = await profile();
@@ -77,20 +78,22 @@ export async function DELETE(
     if (!meeting) {
       return new NextResponse(
         JSON.stringify({ message: "Meeting Not Found" }),
-        { status: 404 },
+        { status: 404 }
       );
     }
 
-    const res = await prismaDB.meeting.delete({ where: { id: params.meetingId } });
+    const res = await prismaDB.meeting.delete({
+      where: { id: params.meetingId },
+    });
 
     return new NextResponse(
       JSON.stringify({ message: "Meeting Deleted Successfully", data: res }),
-      { status: 200 },
+      { status: 200 }
     );
   } catch (error) {
     return new NextResponse(
       JSON.stringify({ message: "Internal Server Error", error }),
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

@@ -1,4 +1,4 @@
-import { Label, Priority, TaskStatus } from "@prisma/client"
+import { Label, Priority, TaskStatus } from "@prisma/client";
 import {
   ArrowDownIcon,
   ArrowRightIcon,
@@ -7,7 +7,7 @@ import {
   CircleIcon,
   CrossCircledIcon,
   StopwatchIcon,
-} from "@radix-ui/react-icons"
+} from "@radix-ui/react-icons";
 
 export const labels = [
   {
@@ -26,42 +26,42 @@ export const labels = [
     value: Label.IMPROVEMENT,
     label: Label.IMPROVEMENT,
   },
-  { 
+  {
     value: Label.REFACTOR,
     label: Label.REFACTOR,
   },
   {
     value: Label.TEST,
     label: Label.TEST,
-  }
-]
+  },
+];
 
 export const statuses = [
   {
     value: "Todo",
     label: TaskStatus.TODO,
     icon: CircleIcon,
-    color: "text-blue-500"
+    color: "text-blue-500",
   },
   {
     value: "In Progress",
     label: TaskStatus.IN_PROGRESS,
     icon: StopwatchIcon,
-    color: "text-yellow-500"
+    color: "text-yellow-500",
   },
   {
     value: "Completed",
     label: TaskStatus.DONE,
     icon: CheckCircledIcon,
-    color: "text-green-500"
+    color: "text-green-500",
   },
   {
     value: "Cancelled",
     label: TaskStatus.CANCELLED,
     icon: CrossCircledIcon,
-    color: "text-red-500"
+    color: "text-red-500",
   },
-]
+];
 
 export const priorities = [
   {
@@ -79,4 +79,4 @@ export const priorities = [
     value: "High",
     icon: ArrowUpIcon,
   },
-]
+];

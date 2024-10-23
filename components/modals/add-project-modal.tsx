@@ -1,5 +1,14 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { LoaderIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
+
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -16,17 +25,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useModal } from "@/hooks/use-modal";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
-import { useRouter } from "next/navigation";
 import { ProjectSchema, projectSchema } from "@/lib/validation/project";
-import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
-import { LoaderIcon } from "lucide-react";
 
 export const AddProjectModal = () => {
   const { isOpen, onClose, type } = useModal();

@@ -1,6 +1,7 @@
-import { TaskSchema, TaskSchemaWithId } from "@/lib/validation/task";
-import { Project, Task, Meeting } from "@prisma/client";
+import { Meeting, Project, Task } from "@prisma/client";
 import { create } from "zustand";
+
+import { TaskSchema, TaskSchemaWithId } from "@/lib/validation/task";
 
 export type ModalType =
   | "createProject"

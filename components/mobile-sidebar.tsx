@@ -1,6 +1,14 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
+
 import { Menu, Shapes } from "lucide-react";
+import {
+  FolderKanban,
+  LayoutDashboard,
+  Presentation,
+  Settings,
+} from "lucide-react";
 
 import {
   Sheet,
@@ -10,14 +18,7 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  FolderKanban,
-  LayoutDashboard,
-  Presentation,
-  Settings,
-} from "lucide-react";
 import { cn } from "@/lib/utils";
-import { usePathname, useRouter } from "next/navigation";
 
 const routes = [
   {
@@ -79,7 +80,7 @@ export const MobileSidebar = () => {
                     "group flex w-full cursor-pointer justify-start rounded-lg p-3 text-sm font-medium transition hover:bg-[#0d0d0d]/10",
                     pathname === route.href
                       ? "bg-[#0d0d0d]/10 dark:bg-[#fefefe]/10"
-                      : "bg-transparent",
+                      : "bg-transparent"
                   )}
                 >
                   <div className="flex flex-1 items-center">

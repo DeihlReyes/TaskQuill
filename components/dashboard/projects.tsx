@@ -1,3 +1,8 @@
+import { Project, Task, TaskStatus } from "@prisma/client";
+import { format } from "date-fns";
+import { FolderPlus } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -6,12 +11,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ProjectWithTask } from "@/lib/types";
-import { format } from "date-fns";
-import { FolderPlus } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-import { Project, Task, TaskStatus } from "@prisma/client";
+import { ProjectWithTask } from "@/lib/types";
 
 const Projects = async () => {
   const fetchProjects = async () => {
@@ -30,7 +31,7 @@ const Projects = async () => {
     const project = data.find((project: Project) => project.id === projectId);
     const totalTasks = project?.task.length;
     const completedTasks = project?.task.filter(
-      (task: Task) => task.status === TaskStatus.DONE,
+      (task: Task) => task.status === TaskStatus.DONE
     ).length;
 
     const percentage = Math.round((completedTasks! / totalTasks!) * 100);

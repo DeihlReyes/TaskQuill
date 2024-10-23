@@ -6,9 +6,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Task } from "@/lib/validation/task";
+
 import { columns } from "../table-components/columns";
 import { DataTable } from "../table-components/data-table";
-import { Task } from "@/lib/validation/task";
 import TaskStatusCards from "./tasks-status-cards";
 
 const UserTasks = ({ tasks }: { tasks: Task[] }) => {

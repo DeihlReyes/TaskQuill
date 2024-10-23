@@ -1,5 +1,5 @@
-import { MeetingToolbar } from "@/components/meeting/meeting-toolbar";
 import { MeetingTiles } from "@/components/meeting/meeting-tiles";
+import { MeetingToolbar } from "@/components/meeting/meeting-toolbar";
 
 const Meetings = () => {
   return (

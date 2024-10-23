@@ -1,6 +1,8 @@
-import { currentUser } from "@clerk/nextjs/server";
-import { prismaDB } from "./prismaDb";
 import { redirect } from "next/navigation";
+
+import { currentUser } from "@clerk/nextjs/server";
+
+import { prismaDB } from "./prismaDb";
 
 export const profile = async () => {
   const user = await currentUser();

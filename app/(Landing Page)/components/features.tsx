@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CheckCircle, BarChart2, Clock, CalendarCheck2 } from "lucide-react";
+import { BarChart2, CalendarCheck2, CheckCircle, Clock } from "lucide-react";
 
 interface FeatureCardProps {
   icon: React.ComponentType<{ className?: string }>;

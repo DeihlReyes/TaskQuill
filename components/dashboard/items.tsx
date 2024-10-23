@@ -1,10 +1,11 @@
 "use client";
 
-import TaskStatusCards from "@/components/dashboard/tasks-status-cards";
-import Projects from "@/components/dashboard/projects";
-import { MeetingSidebar } from "@/components/dashboard/meeting-sidebar";
-import UserTasks from "@/components/dashboard/user-tasks";
 import { HydrationBoundary, useQuery } from "@tanstack/react-query";
+
+import { MeetingSidebar } from "@/components/dashboard/meeting-sidebar";
+import Projects from "@/components/dashboard/projects";
+import TaskStatusCards from "@/components/dashboard/tasks-status-cards";
+import UserTasks from "@/components/dashboard/user-tasks";
 
 function DashboardItems() {
   const { data } = useQuery({

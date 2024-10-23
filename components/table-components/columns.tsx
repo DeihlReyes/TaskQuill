@@ -2,17 +2,18 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   labels,
   priorities,
   statuses,
 } from "@/components/table-components/data/data";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { cn } from "@/lib/utils";
 import { TaskSchema } from "@/lib/validation/task";
+
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
-import { cn } from "@/lib/utils";
 
 export const columns: ColumnDef<TaskSchema>[] = [
   {
@@ -70,7 +71,7 @@ export const columns: ColumnDef<TaskSchema>[] = [
     ),
     cell: ({ row }) => {
       const status = statuses.find(
-        (status) => status.label === row.getValue("status"),
+        (status) => status.label === row.getValue("status")
       );
 
       if (!status) {
@@ -99,7 +100,7 @@ export const columns: ColumnDef<TaskSchema>[] = [
     ),
     cell: ({ row }) => {
       const priority = priorities.find(
-        (priority) => priority.label === row.getValue("priority"),
+        (priority) => priority.label === row.getValue("priority")
       );
 
       if (!priority) {

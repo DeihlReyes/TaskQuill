@@ -1,3 +1,11 @@
+import Link from "next/link";
+
+import { Meeting } from "@prisma/client";
+import { EnterIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
+
+import { getMeetings } from "@/actions/get-meetings";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -6,12 +14,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { format } from "date-fns";
-import { getMeetings } from "@/actions/get-meetings";
-import { Meeting } from "@prisma/client";
-import { Button } from "@/components/ui/button";
-import { EnterIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
 
 export const MeetingTiles = async () => {
   const meetings = await getMeetings();

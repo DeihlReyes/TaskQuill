@@ -1,8 +1,9 @@
 "use client";
 
+import { Trash2 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/use-modal";
-import { Trash2 } from "lucide-react";
 
 interface DeleteProjectButtonProps {
   projectId: string;

@@ -1,11 +1,12 @@
+import { NextResponse } from "next/server";
+
 import { prismaDB } from "@/lib/prismaDb";
 import { profile } from "@/lib/profile";
 import { taskSchema, updateTaskSchema } from "@/lib/validation/task";
-import { NextResponse } from "next/server";
 
 export async function PUT(
   req: Request,
-  { params }: { params: { taskId: string } },
+  { params }: { params: { taskId: string } }
 ) {
   try {
     const currentProfile = await profile();
@@ -23,35 +24,37 @@ export async function PUT(
     //   return Response.json({ error: "Invalid input" }, { status: 400 });
     // }
 
-    const task = await prismaDB.task.findUnique({ where: { id: params.taskId } });
+    const task = await prismaDB.task.findUnique({
+      where: { id: params.taskId },
+    });
 
     if (!task) {
       return new NextResponse(
         JSON.stringify({ message: "Project Not Found" }),
-        { status: 404 },
+        { status: 404 }
       );
     }
 
     const res = await prismaDB.task.update({
       where: { id: params.taskId },
-      data: body
+      data: body,
     });
 
     return new NextResponse(
       JSON.stringify({ message: "Task Updated Successfully", data: res }),
-      { status: 200 },
+      { status: 200 }
     );
   } catch (error) {
     return new NextResponse(
       JSON.stringify({ message: "Internal Server Error", error }),
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { taskId: string } },
+  { params }: { params: { taskId: string } }
 ) {
   try {
     const currentProfile = await profile();
@@ -60,12 +63,14 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const task = await prismaDB.task.findUnique({ where: { id: params.taskId } });
+    const task = await prismaDB.task.findUnique({
+      where: { id: params.taskId },
+    });
 
     if (!task) {
       return new NextResponse(
         JSON.stringify({ message: "Project Not Found" }),
-        { status: 404 },
+        { status: 404 }
       );
     }
 
@@ -73,12 +78,12 @@ export async function DELETE(
 
     return new NextResponse(
       JSON.stringify({ message: "Task Deleted Successfully", data: res }),
-      { status: 200 },
+      { status: 200 }
     );
   } catch (error) {
     return new NextResponse(
       JSON.stringify({ message: "Internal Server Error", error }),
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

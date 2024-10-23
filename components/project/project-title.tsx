@@ -1,12 +1,14 @@
 import { Project } from "@prisma/client";
+
 import { getProject } from "@/actions/get-project";
+
 import { ButtonModal } from "../button-modal";
 import { DeleteProjectButton } from "../delete-project-button";
 
 export const ProjectTitle = async ({ projectId }: { projectId: string }) => {
   const projects = await getProject();
   const project = projects?.find(
-    (project: Project) => project.id === projectId,
+    (project: Project) => project.id === projectId
   );
   let projectTitle = project?.title;
 

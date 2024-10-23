@@ -1,8 +1,9 @@
-import { getMeetings } from "@/actions/get-meetings";
-import { Button } from "@/components/ui/button";
 import { Meeting } from "@prisma/client";
 import { format } from "date-fns";
 import { Plus } from "lucide-react";
+
+import { getMeetings } from "@/actions/get-meetings";
+import { Button } from "@/components/ui/button";
 
 const MeetingCards = async ({ meetings }: { meetings: Meeting[] }) => {
   const firstTwoMeetings = meetings ? meetings.slice(0, 2) : [];

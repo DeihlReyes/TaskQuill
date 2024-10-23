@@ -1,8 +1,10 @@
 "use client";
 
-import { Button } from "./ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
+
 import { useModal } from "@/hooks/use-modal";
+
+import { Button } from "./ui/button";
 
 export const ButtonModal = ({ projectId }: { projectId: string }) => {
   const { onOpen } = useModal();

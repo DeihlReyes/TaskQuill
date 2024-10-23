@@ -1,6 +1,7 @@
 import Link from "next/link";
+
 import { format } from "date-fns";
-import { ProjectWithTask } from "@/lib/types";
+
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -10,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ProjectWithTask } from "@/lib/types";
 
 interface ProjectCardProps {
   project: ProjectWithTask;

@@ -1,7 +1,9 @@
 import { UserButton } from "@clerk/nextjs";
+
+import { profile } from "@/lib/profile";
+
 import { MobileSidebar } from "./mobile-sidebar";
 import { ModeToggle } from "./theme-toggle";
-import { profile } from "@/lib/profile";
 
 const Navbar = async () => {
   const currentUser = await profile();
@@ -10,13 +12,15 @@ const Navbar = async () => {
     day: "numeric",
     year: "numeric",
   });
-  
+
   return (
-    <header className="px-6 md:px-8 pb-2 pt-6">
+    <header className="px-6 pb-2 pt-6 md:px-8">
       <nav className="flex flex-row items-center justify-between">
         <MobileSidebar />
         <div className="hidden md:block">
-          <h1 className="text-lg font-bold">Welcome Back, {currentUser.name}</h1>
+          <h1 className="text-lg font-bold">
+            Welcome Back, {currentUser.name}
+          </h1>
           <p>{date}</p>
         </div>
         <div className="flex flex-row items-center justify-center gap-5">

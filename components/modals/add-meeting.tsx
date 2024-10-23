@@ -1,3 +1,14 @@
+import { useRouter } from "next/navigation";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { LoaderIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
+
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -14,21 +25,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useModal } from "@/hooks/use-modal";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Calendar } from "../ui/calendar";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { MeetingSchema, meetingSchema } from "@/lib/validation/meeting";
-import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
-import { LoaderIcon } from "lucide-react";
+
+import { Calendar } from "../ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 export const AddMeetingModal = () => {
   const { isOpen, onClose, type } = useModal();
@@ -177,7 +180,7 @@ export const AddMeetingModal = () => {
                             variant={"outline"}
                             className={cn(
                               "pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground",
+                              !field.value && "text-muted-foreground"
                             )}
                           >
                             {field.value ? (
