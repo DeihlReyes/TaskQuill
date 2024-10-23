@@ -1,57 +1,68 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "../ui/badge";
-import { ProjectWithTask } from "@/lib/types";
-import { format } from "date-fns";
-import { getProject } from "@/actions/get-project";
+"use client";
 
-export const ProjectTiles = async () => {
-  const projects = await getProject();
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { ProjectWithTask } from "@/lib/types";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Search } from "lucide-react";
+import { ProjectCard } from "./project-card";
+
+export const ProjectTiles = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const {
+    data: projects,
+    isLoading,
+    error,
+  } = useQuery<ProjectWithTask[]>({
+    queryKey: ["projects"],
+    queryFn: async () => {
+      const response = await axios.get("/api/project");
+      return response.data;
+    },
+  });
+
+  const filteredProjects = projects?.filter((project) =>
+    project.title.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
+  if (isLoading) {
+    return (
+      <div className="grid gap-8 py-12 md:grid-cols-3">
+        {[...Array(6)].map((_, index) => (
+          <Skeleton key={index} className="h-64 w-full" />
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error loading projects</div>;
+  }
 
   return (
-    <div>
-      {projects && projects.length > 0 ? (
-        <div className="grid gap-8 py-12 md:grid-cols-3">
-          {projects.map((project: ProjectWithTask) => (
-            <div key={project.id} className="cursor-pointer">
-              <a href={`/projects/${project.id}`} className="block h-full">
-                <Card className="h-full transition-all ease-in-out">
-                  <CardHeader>
-                    <CardTitle className="flex flex-row justify-between text-base font-bold md:text-xl">
-                      <div className="line-clamp-1">{project.title}</div>
-                      <Badge>{project.projectTag}</Badge>
-                    </CardTitle>
-                    <CardDescription className="text-base md:text-xl">
-                      Date Started:{" "}
-                      {format(new Date(project.created), "MM-dd-yyyy")}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="h-24">
-                    <p className="line-clamp-3 overflow-hidden text-ellipsis text-sm text-foreground md:text-lg">
-                      {project.description}
-                    </p>
-                  </CardContent>
-                  <CardFooter className="flex justify-center">
-                    <h1 className="text-center text-sm font-bold md:text-lg">
-                      Number of Tasks: {project.task.length}
-                    </h1>
-                  </CardFooter>
-                </Card>
-              </a>
-            </div>
+    <div className="mt-8 space-y-6">
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+        <Input
+          type="text"
+          placeholder="Search projects..."
+          className="pl-10"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+      {filteredProjects && filteredProjects.length > 0 ? (
+        <div className="grid gap-8 md:grid-cols-3">
+          {filteredProjects.map((project: ProjectWithTask) => (
+            <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       ) : (
-        <div className="flex w-full flex-col items-center justify-center">
-          <p className="mt-8 text-center text-gray-400">
-            No projects yet, create now!
-          </p>
+        <div className="flex w-full flex-col items-center justify-center py-12">
+          <p className="text-center text-gray-500">No projects found</p>
         </div>
       )}
     </div>

@@ -3,7 +3,7 @@ import { ProjectToolbars } from "@/components/project/project-toolbars";
 
 const Projects = () => {
   return (
-    <div className="flex flex-col justify-center p-6 md:p-8">
+    <div className="p-6 md:p-8">
       <ProjectToolbars />
       <ProjectTiles />
     </div>
