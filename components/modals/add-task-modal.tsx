@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import axios from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
 import { CalendarIcon, LoaderIcon } from "lucide-react";
 import { Label, Priority } from "@prisma/client";
 
@@ -50,7 +50,7 @@ export const TaskModal = () => {
   const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
   const queryClient = useQueryClient();
-
+  const queryKey: QueryKey = ["tasks"];
   const isModalOpen = isOpen && (type === "createTask" || type === "editTask");
   const isEditing = type === "editTask";
 
@@ -72,8 +72,8 @@ export const TaskModal = () => {
         ...data.task,
         description: data.task.description ?? "",
       });
-    } else if (data.project?.id) {
-      form.setValue("projectId", data.project.id);
+    } else if (data.projectId) {
+      form.setValue("projectId", data.projectId);
     }
   }, [isEditing, data, form]);
 
@@ -82,18 +82,23 @@ export const TaskModal = () => {
       if (isEditing && data.task) {
         return axios.put(`/api/task/${data.task.id}`, values);
       } else {
-        return axios.post("/api/task", values);
+        return axios.post(`/api/task`, values);
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey });
       form.reset();
       router.refresh();
+      onClose();
+    },
+    onSettled: () => {
+      form.reset();
       onClose();
     },
   });
 
   const onSubmit = (values: TaskSchema) => {
+    console.log("Submitting values:", values);
     mutation.mutate(values);
   };
 
